@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support — Lastly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #080b18;
+      --purple: #6b5bbd;
+      --purple-light: #9b8de8;
+      --white: #f0ede8;
+      --muted: rgba(240,237,232,0.45);
+    }
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+    nav {
+      padding: 28px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(107,91,189,0.12);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 22px;
+      letter-spacing: 8px;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .container {
+      max-width: 680px;
+      margin: 80px auto;
+      padding: 0 48px;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 48px;
+      letter-spacing: 4px;
+      margin-bottom: 16px;
+    }
+    .subtitle {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 64px;
+    }
+    .support-card {
+      border: 1px solid rgba(107,91,189,0.2);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 24px;
+      background: rgba(13,18,40,0.6);
+    }
+    .support-card h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+    .support-card p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .support-card a {
+      display: inline-block;
+      color: var(--purple-light);
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(155,141,232,0.3);
+      padding-bottom: 2px;
+      transition: border-color 0.3s;
+    }
+    .support-card a:hover { border-color: var(--purple-light); }
+    footer {
+      border-top: 1px solid rgba(107,91,189,0.12);
+      padding: 40px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 80px;
+    }
+    .footer-links { display: flex; gap: 32px; list-style: none; }
+    .footer-links a { font-size: 12px; letter-spacing: 1.5px; color: var(--muted); text-decoration: none; }
+    .footer-copy { font-size: 12px; color: rgba(240,237,232,0.2); }
+    @media (max-width: 768px) {
+      nav, footer { padding: 24px; }
+      .container { padding: 0 24px; margin: 48px auto; }
+      footer { flex-direction: column; gap: 20px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-logo">LASTLY</a>
+  </nav>
+  <div class="container">
+    <h1>Support</h1>
+    <p class="subtitle">We're here to help. Reach out anytime and we'll get back to you as soon as possible.</p>
+    <div class="support-card">
+      <h2>Email Support</h2>
+      <p>For any questions, issues, or feedback about Lastly, please email us directly. We typically respond within 24 hours.</p>
+      <a href="mailto:hello@lastlyapp.com">hello@lastlyapp.com</a>
+    </div>
+    <div class="support-card">
+      <h2>Privacy & Data</h2>
+      <p>For questions about your data, deletion requests, or privacy concerns, please review our privacy policy or contact us directly.</p>
+      <a href="/privacy">Read our Privacy Policy →</a>
+    </div>
+  </div>
+  <footer>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/privacy">Privacy Policy</a></li>
+      <li><a href="mailto:hello@lastlyapp.com">Contact</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 Lastly. All rights reserved.</p>
+  </footer>
+</body>
+</html>
