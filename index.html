@@ -1388,20 +1388,27 @@ const obs = new IntersectionObserver(entries => {
 document.querySelectorAll('.r').forEach(el => obs.observe(el));
 document.addEventListener('DOMContentLoaded', () => {
   const receiveMusic = document.getElementById('bgMusic');
-  const receiveSection = document.getElementById('deliver');
+  const receiveSection = document.getElementById('recipient');
   let receiveMusicPlayed = false;
-const receiveMusicObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !receiveMusicPlayed) {
-        receiveMusic.volume = 0.35;
-        receiveMusic.play().catch(() => {});
+
+  function tryPlayReceiveMusic() {
+    if (!receiveSection || !receiveMusic || receiveMusicPlayed) return;
+
+    const rect = receiveSection.getBoundingClientRect();
+    const triggerPoint = window.innerHeight * 0.95;
+
+    if (rect.top <= triggerPoint) {
+      receiveMusic.volume = 0.35;
+      receiveMusic.play().then(() => {
         receiveMusicPlayed = true;
-      }
-    });
-  }, { threshold: 0.05 });
-  if (receiveSection && receiveMusic) receiveMusicObserver.observe(receiveSection);
+        window.removeEventListener('scroll', tryPlayReceiveMusic);
+      }).catch(() => {});
+    }
+  }
+
+  window.addEventListener('scroll', tryPlayReceiveMusic, { passive: true });
+  tryPlayReceiveMusic();
 });
-  
 </script>
 <audio id="bgMusic" preload="auto">
   <source src="music_light_ahead.mp3" type="audio/mpeg">
