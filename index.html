@@ -931,7 +931,7 @@ footer{position:relative;z-index:3;background:rgba(7,4,22,.05);border-top:1px so
             <source src="sambeemp4.mp4" type="video/mp4">
           </video>
         </div>
-        <div class="rct">Video</div>
+        <div class="rct">Text</div>
         <div class="rcs">Full quality · immersive playback</div>
       </div>
       <div class="rc">
@@ -941,13 +941,15 @@ footer{position:relative;z-index:3;background:rgba(7,4,22,.05);border-top:1px so
   <source src="oliver.mp4" type="video/mp4">
 </video>
         </div>
-        <div class="rct">Video</div>
+        <div class="rct">Audio</div>
         <div class="rcs">Full quality · immersive playback</div>
       </div>
       <div class="rc">
         <div class="rc-tint"></div>
         <div class="card-media">
-          <span class="rci">✍️</span>
+<video autoplay muted loop playsinline>
+  <source src="selfie.mp4" type="video/mp4">
+</video>
         </div>
         <div class="rct">Text</div>
         <div class="rcs">Word by word reveal · parchment & blossom</div>
@@ -955,7 +957,9 @@ footer{position:relative;z-index:3;background:rgba(7,4,22,.05);border-top:1px so
       <div class="rc">
         <div class="rc-tint"></div>
         <div class="card-media">
-          <span class="rci">🎵</span>
+          <video autoplay muted loop playsinline>
+  <source src="chorus.mp4" type="video/mp4">
+</video>
         </div>
         <div class="rct">Chorus</div>
         <div class="rcs">Multiple voices · assembled as one</div>
@@ -1382,6 +1386,26 @@ const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('on'); });
 }, { threshold: .08 });
 document.querySelectorAll('.r').forEach(el => obs.observe(el));
+document.addEventListener('DOMContentLoaded', () => {
+  const receiveMusic = document.getElementById('bgMusic');
+  const receiveSection = document.getElementById('deliver');
+  let receiveMusicPlayed = false;
+const receiveMusicObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !receiveMusicPlayed) {
+        receiveMusic.volume = 0.35;
+        receiveMusic.play().catch(() => {});
+        receiveMusicPlayed = true;
+      }
+    });
+  }, { threshold: 0.05 });
+  if (receiveSection && receiveMusic) receiveMusicObserver.observe(receiveSection);
+});
+  
 </script>
+<audio id="bgMusic" preload="auto">
+  <source src="music_light_ahead.mp3" type="audio/mpeg">
+</audio>
+
 </body>
 </html>
