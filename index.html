@@ -1464,7 +1464,31 @@ document.querySelectorAll('.r').forEach(el => obs.observe(el));
 
   checkRecipientZone();
 })();
+<audio id="bgMusic" src="music888.mp3" preload="auto"></audio>
 
+<script>
+let musicStarted = false;
+const music = document.getElementById('bgMusic');
+
+function startMusic() {
+  if (musicStarted) return;
+  musicStarted = true;
+
+  music.volume = 0.9;
+
+  music.play().catch(() => {
+    // fallback: try again on next interaction
+    document.addEventListener('click', startMusic, { once: true });
+  });
+}
+
+// 🔥 Trigger on FIRST scroll movement
+window.addEventListener('scroll', startMusic, { once: true });
+
+// 🔥 Backup triggers (important for mobile / browser policies)
+window.addEventListener('wheel', startMusic, { once: true });
+window.addEventListener('touchstart', startMusic, { once: true });
+window.addEventListener('keydown', startMusic, { once: true });
 </script>
 </body>
 </html>
