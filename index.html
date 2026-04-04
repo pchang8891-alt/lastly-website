@@ -1391,18 +1391,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const receiveSection = document.getElementById('recipient');
   let receiveMusicPlayed = false;
   let audioUnlocked = false;
+  let userHasScrolled = false;
 
   function tryPlayReceiveMusic() {
-    if (!receiveSection || !receiveMusic || receiveMusicPlayed || !audioUnlocked) return;
+    if (!receiveSection || !receiveMusic || receiveMusicPlayed || !audioUnlocked || !userHasScrolled) return;
 
     const rect = receiveSection.getBoundingClientRect();
     const triggerPoint = window.innerHeight * 0.9;
 
-    if (rect.top <= triggerPoint) {
+    if (rect.top <= triggerPoint && rect.bottom > 0) {
       receiveMusic.volume = 0.35;
       receiveMusic.play().then(() => {
         receiveMusicPlayed = true;
-        window.removeEventListener('scroll', tryPlayReceiveMusic);
+        window.removeEventListener('scroll', onScrollCheck);
       }).catch(err => {
         console.log('Music play blocked:', err);
       });
@@ -1419,7 +1420,6 @@ document.addEventListener('DOMContentLoaded', () => {
         receiveMusic.currentTime = 0;
         receiveMusic.volume = 0.35;
         audioUnlocked = true;
-        tryPlayReceiveMusic();
       })
       .catch(err => {
         console.log('Audio unlock blocked:', err);
@@ -1429,11 +1429,15 @@ document.addEventListener('DOMContentLoaded', () => {
     window.removeEventListener('click', unlockAudio);
   }
 
+  function onScrollCheck() {
+    userHasScrolled = true;
+    tryPlayReceiveMusic();
+  }
+
   window.addEventListener('pointerdown', unlockAudio, { once: true });
   window.addEventListener('click', unlockAudio, { once: true });
-
-  window.addEventListener('scroll', tryPlayReceiveMusic, { passive: true });
-  tryPlayReceiveMusic();
+  window.addEventListener('scroll', onScrollCheck, { passive: true });
+});
 });
 </script>
 <audio id="bgMusic" preload="auto">
