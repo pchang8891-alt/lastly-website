@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lastly — Love Across Space & Time</title>
+<meta name="description" content="Record messages for the people you love. Delivered at the moment that matters most.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Inter',sans-serif;
+  font-weight:300;
+  color:#1a2a42;
+  overflow-x:hidden;
+  /* Soft luminous blue-white base */
+  background:#d0dfe9;
+}
+
+/* The canvas IS the background — full page height, fixed */
+#bg{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+
+/* Grain — removed for clean luminous look */
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:28px 60px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.logo{font-family:'Prata',serif;font-weight:400;font-size:18px;letter-spacing:12px;color:rgba(20,30,50,.85);text-decoration:none;}
+.nav-links{display:flex;gap:40px;list-style:none;}
+.nav-links a{font-size:9px;letter-spacing:2.5px;color:rgba(30,50,80,.55);text-decoration:none;transition:color .3s;text-transform:uppercase;}
+.nav-links a:hover{color:rgba(20,30,50,.9);}
+
+main{position:relative;z-index:2;}
+
+.sec{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:140px 60px 120px;
+  position:relative;
+}
+
+/* HERO */
+.hero{text-align:center;min-height:100vh;justify-content:center;overflow:hidden;padding:120px 60px 140px;}
+
+.hero-pre{
+  display:inline-flex;align-items:center;gap:12px;
+  font-size:10px;letter-spacing:4px;color:rgba(30,50,80,.7);
+  text-transform:uppercase;margin-bottom:22px;
+  padding:11px 18px;border-radius:999px;
+  border:1px solid rgba(30,60,100,.12);
+  background:rgba(255,255,255,.25);backdrop-filter:blur(14px);
+  opacity:0;animation:fu 1.5s ease forwards .2s;
+}
+.hero-name{
+  position:relative;
+  display:inline-block;
+  overflow:hidden;
+  font-family:'Inter',sans-serif;font-weight:200;
+  font-size:clamp(52px,6.5vw,96px);letter-spacing:.55em;line-height:1.02;
+  margin:0 auto 12px;
+  opacity:0;animation:fu 1.5s ease forwards .38s;
+  color:rgba(20,35,60,.92);
+  text-shadow:
+    0 4px 20px rgba(255,255,255,0.3);
+}
+.hero-name::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-120%;
+  width:120%;
+  height:100%;
+  background:linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,0.08) 40%,
+    rgba(255,255,255,0.18) 50%,
+    rgba(255,255,255,0.08) 60%,
+    transparent 100%
+  );
+  transform:skewX(-20deg);
+  animation:logoSweep 9s ease-in-out infinite;
+}
+
+.hero-acronym{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(13px,1.4vw,18px);
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.58);
+  margin:2px auto 0;
+  opacity:0;animation:fu 1.5s ease forwards .48s;
+}
+
+
+.hero-acronym{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(14px,1.6vw,20px);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.72);text-shadow:0 2px 10px rgba(0,0,0,.24);
+  margin-top:8px;
+  position:relative;
+  display:inline-block;
+  padding-bottom:18px;
+}
+.hero-acronym::after{
+  content:'';
+  position:absolute;
+  left:50%;
+  bottom:0;
+  transform:translateX(-50%);
+  width:160px;
+  height:1px;
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(214,229,246,.34),rgba(255,255,255,0));
+  box-shadow:0 0 12px rgba(205,224,246,.12);
+}
+
+.hero-tag{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(26px,3vw,44px);line-height:1.15;letter-spacing:.02em;
+  max-width:760px;margin:56px auto 24px;color:rgba(255,255,255,.9);text-shadow:0 3px 18px rgba(0,0,0,.34);
+  opacity:0;animation:fu 1.5s ease forwards .56s;
+  text-shadow:0 12px 28px rgba(8,14,28,.10);
+}
+.hero-tag em{
+  font-style:italic;font-weight:500;
+  color:rgba(230, 210, 255, 0.95);
+  background:none;
+  -webkit-background-clip:initial;-webkit-text-fill-color:initial;background-clip:initial;
+}
+.hero-tag em{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-weight:500;
+  background:linear-gradient(135deg,#ffffff 0%,#edf4ff 34%,#d7e6fb 68%,#fff1df 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+.qcard{
+  max-width:760px;margin:54px auto 38px;
+  padding:28px 32px;
+  border:1px solid rgba(214,226,240,.10);border-radius:22px;
+  background:linear-gradient(180deg,rgba(10,18,34,.20),rgba(8,12,24,.10));backdrop-filter:blur(18px);
+  opacity:0;animation:fu 1.5s ease forwards .95s;
+  box-shadow:0 18px 60px rgba(2,8,24,.10),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.qt{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(24px,2.3vw,34px);line-height:1.42;color:rgba(248,250,252,.97);margin-bottom:14px;text-shadow:0 2px 14px rgba(0,0,0,.34);}
+.qa{font-size:11px;letter-spacing:2.2px;color:rgba(238,243,248,.88);text-transform:uppercase;text-shadow:0 2px 10px rgba(0,0,0,.28);}
+
+.hero-btn-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:44px;opacity:0;animation:fu 1.5s ease forwards 1.15s;}
+
+@keyframes logoSweep{0%{left:-120%;opacity:0;}15%{opacity:.18;}55%{left:120%;opacity:.24;}100%{left:120%;opacity:0;}}
+/* Nebula wisps */
+.neb{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.nw1{position:absolute;top:8%;left:-4%;width:60%;height:42%;background:radial-gradient(ellipse at 40% 45%,rgba(124,154,196,.1) 0%,rgba(138,145,183,.06) 28%,rgba(241,214,183,.06) 52%,transparent 74%);border-radius:50%;animation:nw1a 16s ease-in-out infinite;filter:blur(6px);}
+.nw2{position:absolute;top:-2%;right:-2%;width:42%;height:34%;background:radial-gradient(ellipse,rgba(150,182,217,.06) 0%,rgba(244,222,193,.05) 34%,transparent 66%);border-radius:50%;animation:nw2a 18s ease-in-out infinite;filter:blur(8px);}
+@keyframes nw1a{0%,100%{opacity:.8;transform:scale(1) rotate(0deg);}50%{opacity:1;transform:scale(1.07) rotate(2deg);}}
+@keyframes nw2a{0%,100%{opacity:.5;}50%{opacity:.9;transform:scale(1.05);}}
+
+.sh{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:fu 1s ease forwards 2.5s;}
+.sh span{font-size:7px;letter-spacing:3px;color:rgba(200,180,255,.18);text-transform:uppercase;}
+.sl{width:1px;height:52px;background:linear-gradient(to bottom,rgba(180,130,255,.55),transparent);animation:slp 2.6s ease-in-out infinite;}
+@keyframes slp{0%,100%{opacity:.22;transform:scaleY(.75);}50%{opacity:1;transform:scaleY(1);}}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(16,28,52,.34);border:1px solid rgba(214,224,236,.18);
+  color:#f2f4fa;padding:17px 42px;border-radius:60px;
+  font-size:10px;letter-spacing:2.5px;text-decoration:none;
+  transition:all .5s ease;backdrop-filter:blur(18px);
+  text-transform:uppercase;cursor:pointer;outline:none;font-family:'Inter',sans-serif;
+}
+.btn:hover{background:rgba(20,36,64,.48);border-color:rgba(226,232,242,.34);transform:translateY(-3px);box-shadow:0 20px 70px rgba(8,16,30,.18);}
+.btn-d,.app-btn{background:#050505;border-color:rgba(255,255,255,.12);color:#f7f7fb;box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.05);}
+.btn-d:hover,.app-btn:hover{background:#000;box-shadow:0 18px 48px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);}
+.cs{font-size:8px;letter-spacing:3px;text-transform:uppercase;}
+.csl{color:rgba(244,247,250,.84);text-shadow:0 2px 10px rgba(0,0,0,.22);}
+.csd{color:rgba(6,4,18,.28);}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(50px);transition:opacity 1.4s cubic-bezier(.15,1,.3,1),transform 1.4s cubic-bezier(.15,1,.3,1);}
+.r.on{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.14s;}.d2{transition-delay:.28s;}.d3{transition-delay:.42s;}.d4{transition-delay:.56s;}
+
+/* TYPE */
+.lbl{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:rgba(208,188,255,.82);margin-bottom:18px;text-shadow:0 1px 8px rgba(0,0,0,.24);}
+.lbl-d{color:rgba(8,4,24,.32);}
+.lbl-t{color:rgba(60,210,185,.65);}
+.h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(36px,6.5vw,74px);line-height:1.06;margin-bottom:26px;color:#f0eeff;}
+.h2-d{color:#080420;}
+/* BODY TEXT — bright lavender white, large, readable */
+.body{font-size:clamp(15px,1.6vw,17px);line-height:1.95;color:rgba(246,240,255,.94);max-width:480px;text-shadow:0 2px 12px rgba(0,0,0,.36);}
+
+/* GLASS CARDS */
+.gc{
+  background:linear-gradient(145deg,rgba(255,255,255,.07) 0%,rgba(255,255,255,.025) 100%);
+  border:1px solid rgba(255,255,255,.1);
+  backdrop-filter:blur(28px);
+  border-radius:24px;
+  box-shadow:0 24px 80px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+/* PROBLEM */
+.prob-inner{text-align:center;max-width:840px;}
+.pb{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,5.5vw,60px);font-weight:300;line-height:1.26;margin-bottom:30px;color:#f0eeff;}
+.pb em{font-style:italic;color:rgba(200,165,255,.88);}
+.pr{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(17px,2.5vw,28px);color:rgba(244,232,255,.93);margin-top:38px;text-shadow:0 3px 16px rgba(0,0,0,.38);}
+
+/* FEATURE ROW */
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;width:100%;max-width:1060px;}
+.fr.rv{direction:rtl;}.fr.rv>*{direction:ltr;}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px;}
+.pill{display:inline-flex;align-items:center;gap:6px;background:rgba(140,90,230,.09);border:1px solid rgba(180,140,255,.16);border-radius:40px;padding:8px 16px;font-size:10px;color:rgba(242,235,255,.94);text-shadow:0 1px 8px rgba(0,0,0,.26);}
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,rgba(110,52,238,.34),rgba(188,96,255,.24) 54%,rgba(88,132,255,.18));
+  border:1px solid rgba(222,184,255,.36);
+  border-radius:40px;padding:8px 16px;font-size:10px;
+  color:rgba(241,234,255,.9);
+  box-shadow:0 10px 28px rgba(82,38,180,.14), inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+/* Visual card */
+.vc{
+  width:100%;aspect-ratio:4/5;border-radius:28px;
+  border:1px solid rgba(180,140,255,.14);
+  background:rgba(8,5,28,.62);
+  backdrop-filter:blur(32px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  position:relative;overflow:hidden;
+  box-shadow:0 0 0 1px rgba(140,90,220,.06),0 44px 110px rgba(4,2,16,.65),inset 0 1px 0 rgba(255,255,255,.04);
+}
+.vc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(180,140,255,.28),transparent);}
+.vc::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(140,90,230,.04) 0%,transparent 50%,rgba(100,60,200,.03) 100%);}
+.vci{font-size:50px;opacity:.2;}
+.vcl{font-size:8px;letter-spacing:2px;color:rgba(230,220,255,.7);text-transform:uppercase;text-align:center;padding:0 28px;text-shadow:0 1px 8px rgba(0,0,0,.25);}
+
+/* Scheduling mini cards */
+.sc2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:30px;}
+.sc2c{background:rgba(255,255,255,.044);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px;backdrop-filter:blur(16px);}
+  background:linear-gradient(145deg,rgba(70,38,148,.12),rgba(255,255,255,.048) 52%,rgba(78,108,220,.06));
+  border:1px solid rgba(214,192,255,.11);
+  border-radius:16px;padding:20px;backdrop-filter:blur(18px);
+  box-shadow:0 18px 46px rgba(24,12,66,.14), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.sc2c-i{font-size:22px;margin-bottom:10px;display:block;}
+.sc2c-t{font-family:'Cormorant Garamond',serif;font-size:19px;color:rgba(248,250,252,.98);margin-bottom:6px;text-shadow:0 2px 12px rgba(0,0,0,.32);}
+.sc2c-b{font-size:12px;line-height:1.75;color:rgba(244,237,255,.92);text-shadow:0 2px 10px rgba(0,0,0,.34);}
+
+/* GUARDIAN FLOW — teal color scheme */
+.gw{width:100%;max-width:1320px;}
+.flow{width:100%;max-width:1280px;margin:72px auto 0;}
+
+.fn{
+  background:rgba(4,8,22,.86);
+  border:1px solid rgba(40,180,155,.2);
+  border-radius:18px;padding:20px 28px;
+  margin:0 auto 5px;max-width:440px;
+  text-align:center;backdrop-filter:blur(28px);
+  transition:all .35s ease;
+  box-shadow:0 4px 32px rgba(0,0,0,.32),inset 0 1px 0 rgba(60,200,175,.04);
+}
+.fn:hover{border-color:rgba(40,180,155,.48);background:rgba(40,180,155,.07);transform:translateY(-2px);}
+.fn.hl{border-color:rgba(80,220,195,.42);background:rgba(80,220,195,.06);box-shadow:0 4px 44px rgba(80,220,195,.08),inset 0 1px 0 rgba(80,220,195,.06);}
+.fn.ok{border-color:rgba(80,200,120,.3);background:rgba(80,200,120,.05);}
+.fn.ok:hover{border-color:rgba(80,200,120,.6);}
+.fn.wn{border-color:rgba(220,170,40,.24);background:rgba(220,170,40,.04);}
+.fn.dg{border-color:rgba(210,70,90,.26);background:rgba(210,70,90,.05);}
+.fn.ec{border-color:rgba(160,110,255,.34);background:rgba(160,110,255,.06);}
+
+.ft{font-family:'Cormorant Garamond',serif;font-size:18px;color:#f0eeff;margin-bottom:4px;}
+.fs{font-size:11px;color:rgba(160,220,205,.52);line-height:1.55;}
+
+.fc{height:32px;position:relative;display:flex;align-items:center;justify-content:center;}
+.fc::before{content:'';position:absolute;top:0;bottom:7px;left:50%;width:1px;background:linear-gradient(to bottom,rgba(40,180,155,.45),rgba(40,180,155,.05));}
+.fc::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid rgba(40,180,155,.45);}
+.fll{font-size:8px;letter-spacing:2px;color:rgba(40,180,155,.38);text-transform:uppercase;text-align:center;margin-bottom:5px;}
+
+/* Branch grid — 3 columns, clearly spaced */
+.fb{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:5px 0;max-width:660px;margin-left:auto;margin-right:auto;}
+.fb .fn{max-width:100%;padding:15px 13px;margin:0;}
+.fb .ft{font-size:14px;}
+.fb .fs{font-size:10px;}
+
+/* Side grid */
+.sg{display:grid;grid-template-columns:1fr auto;gap:10px;max-width:520px;margin:0 auto;align-items:center;}
+.sn{max-width:155px;padding:15px 13px;}
+
+/* Emergency contact row */
+.ecr{display:grid;grid-template-columns:1fr auto;gap:10px;max-width:520px;margin:0 auto;}
+.ecn{max-width:165px;padding:15px 13px;}
+
+.fnote{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:rgba(40,180,155,.44);margin-top:36px;line-height:1.65;}
+
+
+/* L.A.S.T ECHO FLOW */
+.flow-shell{
+  width:100%;
+  border:1px solid rgba(128,185,214,.18);
+  border-radius:34px;
+  background:linear-gradient(180deg,rgba(8,16,30,.66),rgba(7,14,28,.40));
+  backdrop-filter:blur(24px);
+  box-shadow:0 34px 120px rgba(3,10,22,.24), inset 0 1px 0 rgba(255,255,255,.04);
+  padding:32px 28px 24px;
+}
+.flow-header{text-align:center;margin-bottom:24px;}
+.flow-kicker{font-size:11px;letter-spacing:3.6px;text-transform:uppercase;color:rgba(155,205,224,.68);margin-bottom:10px;}
+.flow-title{font-family:'Prata',serif;font-size:clamp(28px,3vw,44px);letter-spacing:.14em;color:rgba(246,249,252,.96);}
+.flow-sub{font-size:15px;line-height:1.9;color:rgba(236,244,249,.94);max-width:940px;margin:10px auto 0;text-shadow:0 2px 12px rgba(0,0,0,.34);}
+/* === FLOW CHART MOBILE FIT FIX === */
+.flow-wrap{
+  width:100%;
+  overflow-x:auto;
+  overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+}
+.flow-svg{
+  width:100%;
+  min-width:1200px;
+  height:auto;
+  display:block;
+}
+
+/* MOBILE FLOW VERSION */
+.flow-mobile{display:none;max-width:760px;margin:20px auto 0;}
+.flow-mobile-stage{position:relative;margin:0 auto 18px;max-width:100%;padding:18px 18px 16px;border-radius:22px;border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(18px);box-shadow:0 18px 46px rgba(8,12,26,.16), inset 0 1px 0 rgba(255,255,255,.05);}
+.flow-mobile-stage.main{background:rgba(7,14,28,.9);border-color:rgba(90,181,204,.34);}
+.flow-mobile-stage.stage{background:rgba(8,18,35,.94);border-color:rgba(100,189,214,.32);}
+.flow-mobile-stage.green{background:rgba(14,28,23,.94);border-color:rgba(100,226,165,.34);}
+.flow-mobile-stage.red{background:rgba(34,15,21,.94);border-color:rgba(255,126,138,.34);}
+.flow-mobile-stage.amber{background:rgba(34,23,10,.95);border-color:rgba(240,201,112,.34);}
+.flow-mobile-stage.purple{background:rgba(25,18,37,.95);border-color:rgba(200,152,255,.34);}
+.flow-mobile-stage.neutral{background:rgba(15,22,34,.94);border-color:rgba(181,200,214,.22);}
+.flow-mobile-stage .k{font-size:11px;letter-spacing:2.2px;text-transform:uppercase;color:rgba(170,204,224,.74);margin-bottom:8px;text-align:center;}
+.flow-mobile-stage .t{font-family:'Cormorant Garamond',serif;font-size:29px;line-height:1.08;color:rgba(248,251,253,.98);text-align:center;margin-bottom:10px;}
+.flow-mobile-stage .b{font-size:14px;line-height:1.8;color:rgba(240,246,250,.92);text-align:center;text-shadow:0 2px 10px rgba(0,0,0,.28);}
+.flow-mobile-stage .mini{font-size:13px;line-height:1.8;color:rgba(236,243,249,.9);text-shadow:0 2px 10px rgba(0,0,0,.28);}
+.flow-mobile-arrow{display:flex;justify-content:center;align-items:center;height:34px;color:rgba(150,208,228,.72);font-size:26px;line-height:1;margin:-4px 0 10px;}
+.flow-mobile-outcomes{display:grid;gap:12px;margin-bottom:16px;}
+.flow-mobile-outcome{border-radius:18px;padding:14px 14px 12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);}
+.flow-mobile-outcome strong{display:block;font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:rgba(247,250,252,.98);margin-bottom:8px;text-align:center;}
+.flow-mobile-outcome span{display:block;font-size:13px;line-height:1.75;color:rgba(239,245,250,.92);text-align:center;text-shadow:0 2px 10px rgba(0,0,0,.28);}
+.flow-mobile-outcome.amber{border-color:rgba(243,204,121,.24);background:rgba(243,204,121,.05);}
+.flow-mobile-outcome.green{border-color:rgba(122,236,177,.24);background:rgba(122,236,177,.05);}
+.flow-mobile-outcome.purple{border-color:rgba(204,160,255,.24);background:rgba(204,160,255,.05);}
+.flow-mobile-stage .split{display:grid;gap:12px;margin-top:12px;}
+.flow-mobile-badge{display:inline-block;margin:0 auto 8px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.05);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(240,245,249,.82);}
+
+@media(max-width:768px){
+  .flow-wrap{display:none;}
+  .flow-mobile{display:block;}
+  .flow-shell{padding:26px 18px 22px;}
+  .flow-legend{gap:10px;}
+  .flow-chip{font-size:11px;padding:8px 11px;}
+
+  .flow-shell{padding:24px 12px 18px;}
+  .flow-wrap{padding-bottom:6px;}
+  .flow-svg{
+    min-width:960px;
+  }
+}
+@media(max-width:480px){
+  .flow-shell{padding:22px 8px 16px;}
+  .flow-svg{
+    min-width:880px;
+  }
+}
+.flow-svg text{font-family:'Inter',sans-serif;fill:rgba(239,245,250,.95)}
+.flow-svg .serif{font-family:'Cormorant Garamond',serif;}
+.flow-svg .small{font-size:15px;fill:rgba(211,225,234,.82)}
+.flow-svg .tiny{font-size:13px;fill:rgba(192,208,220,.72)}
+.flow-svg .label{font-size:12px;letter-spacing:2px;text-transform:uppercase;fill:rgba(148,190,212,.64)}
+.flow-svg .red{fill:#ff9aa2}.flow-svg .green{fill:#9af0bf}.flow-svg .amber{fill:#f4d58b}.flow-svg .purple{fill:#dcbcff}
+.flow-svg .line{stroke:rgba(126,190,215,.64);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.flow-svg .line-red{stroke:rgba(255,141,151,.94);stroke-width:2.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.flow-svg .line-green{stroke:rgba(122,236,177,.92);stroke-width:2.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.flow-svg .line-purple{stroke:rgba(204,160,255,.9);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.flow-svg .line-amber{stroke:rgba(243,204,121,.9);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.flow-svg .box-main{fill:rgba(7,14,28,.95);stroke:rgba(90,181,204,.38);stroke-width:2}
+.flow-svg .box-stage{fill:rgba(8,18,35,.97);stroke:rgba(100,189,214,.35);stroke-width:2}
+.flow-svg .box-green{fill:rgba(14,28,23,.97);stroke:rgba(100,226,165,.4);stroke-width:2}
+.flow-svg .box-red{fill:rgba(34,15,21,.97);stroke:rgba(255,126,138,.42);stroke-width:2}
+.flow-svg .box-amber{fill:rgba(34,23,10,.97);stroke:rgba(240,201,112,.4);stroke-width:2}
+.flow-svg .box-purple{fill:rgba(25,18,37,.97);stroke:rgba(200,152,255,.4);stroke-width:2}
+.flow-svg .box-neutral{fill:rgba(15,22,34,.97);stroke:rgba(181,200,214,.24);stroke-width:1.6}
+.flow-legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.flow-chip{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);font-size:12px;color:rgba(212,224,233,.76)}
+.flow-dot{width:10px;height:10px;border-radius:50%}
+.flow-foot{margin-top:18px;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:rgba(240,246,250,.94);line-height:1.6;text-shadow:0 2px 12px rgba(0,0,0,.34)}
+.flow-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;margin-top:20px;}
+.flow-panel{border:1px solid rgba(255,255,255,.08);border-radius:24px;background:rgba(255,255,255,.03);padding:20px 22px;backdrop-filter:blur(16px);}
+.flow-panel h3{font-family:'Cormorant Garamond',serif;font-size:28px;color:#f4f7fb;margin-bottom:8px;font-weight:400;}
+.flow-panel p{font-size:14px;line-height:1.85;color:rgba(239,245,250,.94);text-shadow:0 2px 12px rgba(0,0,0,.34);}
+.outcome-list{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px;}
+.outcome-item{border-radius:18px;padding:14px 16px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);}
+.outcome-item strong{display:block;font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:rgba(240,245,250,.94);margin-bottom:6px;}
+.outcome-item span{display:block;font-size:14px;line-height:1.75;color:rgba(241,246,250,.94);text-shadow:0 2px 10px rgba(0,0,0,.34);}
+.outcome-item.red{border-color:rgba(255,126,138,.22);background:rgba(255,126,138,.05);}
+.outcome-item.green{border-color:rgba(122,236,177,.22);background:rgba(122,236,177,.05);}
+.outcome-item.purple{border-color:rgba(204,160,255,.24);background:rgba(204,160,255,.05);}
+.outcome-item.amber{border-color:rgba(243,204,121,.24);background:rgba(243,204,121,.05);}
+@media(max-width:980px){.flow-grid{grid-template-columns:1fr;}}
+
+/* RECIPIENT — 4 slots */
+
+.rw{width:100%;max-width:1060px;}
+.rg{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:44px;align-items:stretch;}
+.rc{
+  min-height:560px;
+  aspect-ratio:auto;
+  padding:18px;
+  border-radius:24px;
+  border:1px solid rgba(214,196,255,.22);
+  background:linear-gradient(165deg,rgba(17,16,42,.52) 0%,rgba(76,96,146,.18) 54%,rgba(162,192,228,.18) 100%);
+  backdrop-filter:blur(30px) saturate(120%);
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:12px;
+  position:relative;overflow:hidden;
+  box-shadow:0 24px 80px rgba(4,2,16,.46),0 0 0 1px rgba(255,255,255,.035) inset,inset 0 1px 0 rgba(255,255,255,.08);
+  transition:all .4s ease;
+}
+.card-media{
+  width:100%;
+  flex:1;
+  min-height:430px;
+  border-radius:18px;
+  overflow:hidden;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(5,8,20,.22);
+  z-index:1;
+}
+.card-media video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.card-media .rci{font-size:42px;}
+.rc:hover{border-color:rgba(226,208,255,.34);transform:translateY(-4px);box-shadow:0 34px 100px rgba(18,14,48,.42),0 0 38px rgba(120,90,255,.14),inset 0 1px 0 rgba(255,255,255,.1);}
+.rc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.32),transparent);}
+.rc::after{content:'';position:absolute;inset:-20% -10% auto -10%;height:62%;background:radial-gradient(ellipse at top center,rgba(255,255,255,.14) 0%,rgba(255,255,255,.05) 36%,transparent 74%);pointer-events:none;}
+/* Unique radial tint each card */
+.rc:nth-child(1){background:linear-gradient(165deg,rgba(20,16,48,.58) 0%,rgba(77,86,158,.22) 54%,rgba(173,144,255,.16) 100%);}
+.rc:nth-child(1) .rci{filter:drop-shadow(0 0 16px rgba(182,116,255,.35));}
+.rc:nth-child(1) .rc-tint{background:radial-gradient(circle at 50% 100%,rgba(126,72,255,.24) 0%,rgba(186,118,255,.12) 34%,transparent 64%);}
+.rc:nth-child(2){background:linear-gradient(165deg,rgba(18,18,46,.56) 0%,rgba(76,102,168,.2) 54%,rgba(122,168,255,.14) 100%);}
+.rc:nth-child(2) .rci{filter:drop-shadow(0 0 16px rgba(96,132,255,.32));}
+.rc:nth-child(2) .rc-tint{background:radial-gradient(circle at 50% 100%,rgba(88,114,255,.18) 0%,rgba(118,72,255,.1) 38%,transparent 64%);}
+.rc:nth-child(3){background:linear-gradient(165deg,rgba(25,14,48,.58) 0%,rgba(92,76,156,.2) 54%,rgba(190,126,255,.14) 100%);}
+.rc:nth-child(3) .rci{filter:drop-shadow(0 0 16px rgba(200,110,255,.34));}
+.rc:nth-child(3) .rc-tint{background:radial-gradient(circle at 50% 100%,rgba(188,88,255,.22) 0%,rgba(122,88,255,.09) 36%,transparent 64%);}
+.rc:nth-child(4){background:linear-gradient(165deg,rgba(16,20,48,.58) 0%,rgba(64,90,166,.2) 54%,rgba(132,146,255,.14) 100%);}
+.rc:nth-child(4) .rci{filter:drop-shadow(0 0 16px rgba(116,146,255,.34));}
+.rc:nth-child(4) .rc-tint{background:radial-gradient(circle at 50% 100%,rgba(104,138,255,.2) 0%,rgba(174,110,255,.09) 40%,transparent 65%);}
+.rc-tint{position:absolute;inset:0;pointer-events:none;}
+.rci{font-size:36px;opacity:.9;position:relative;z-index:1;}
+.rct{font-family:'Cormorant Garamond',serif;font-size:24px;color:#f5f8fc;position:relative;z-index:1;text-shadow:0 6px 20px rgba(8,10,24,.18);}
+.rcs{font-size:10px;letter-spacing:1.7px;color:rgba(244,247,250,.9);text-transform:uppercase;position:relative;z-index:1;text-shadow:0 2px 10px rgba(0,0,0,.34);}
+
+/* DELIVER — 2x2 */
+.dw{width:100%;max-width:1060px;text-align:center;}
+.dc2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:52px;}
+.dc{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:36px 28px;text-align:left;backdrop-filter:blur(20px);transition:all .4s ease;}
+.dc:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.16);transform:translateY(-5px);box-shadow:0 24px 80px rgba(0,0,0,.15);}
+.dci{font-size:34px;margin-bottom:18px;display:block;}
+.dct{font-family:'Cormorant Garamond',serif;font-size:24px;margin-bottom:10px;color:#f0eeff;}
+.dcb{font-size:13px;line-height:1.85;color:rgba(244,235,255,.92);text-shadow:0 2px 12px rgba(0,0,0,.34);}
+
+/* QUOTE */
+.fq{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(21px,3.2vw,38px);line-height:1.4;max-width:660px;text-align:center;margin:56px auto 0;color:rgba(245,233,255,.9);text-shadow:0 3px 16px rgba(0,0,0,.38);}
+
+/* CTA */
+.ctaw{text-align:center;position:relative;z-index:2;max-width:780px;margin:0 auto;}
+.ctat{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(32px,6vw,68px);line-height:1.16;color:#07041a;margin-bottom:44px;}
+.ctawm{font-family:'Cormorant Garamond',serif;font-size:clamp(46px,10vw,104px);letter-spacing:18px;color:#07041a;opacity:.78;margin-bottom:38px;display:block;}
+.ss{display:flex;justify-content:center;gap:44px;margin-top:56px;flex-wrap:wrap;}
+.si{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.sii{font-size:18px;}
+.sil{font-size:8px;letter-spacing:1.5px;text-align:center;color:rgba(22,18,48,.68);text-transform:uppercase;text-shadow:0 1px 8px rgba(255,255,255,.28);}
+
+/* FOOTER */
+footer{position:relative;z-index:3;background:rgba(7,4,22,.05);border-top:1px solid rgba(7,4,22,.07);padding:36px 60px;display:flex;justify-content:space-between;align-items:center;}
+.fl{font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:8px;color:rgba(7,4,22,.28);text-decoration:none;}
+.fls{display:flex;gap:24px;list-style:none;}
+.fls a{font-size:8px;letter-spacing:1.5px;color:rgba(7,4,22,.28);text-decoration:none;text-transform:uppercase;transition:color .3s;}
+.fls a:hover{color:rgba(7,4,22,.65);}
+.fc2{font-size:8px;color:rgba(28,24,44,.46);}
+
+@keyframes fu{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:translateY(0)}}
+
+
+/* MOBILE FLOW VERSION */
+.flow-mobile{display:none;max-width:760px;margin:20px auto 0;}
+.flow-mobile-stage{position:relative;margin:0 auto 18px;max-width:100%;padding:18px 18px 16px;border-radius:22px;border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(18px);box-shadow:0 18px 46px rgba(8,12,26,.16), inset 0 1px 0 rgba(255,255,255,.05);}
+.flow-mobile-stage.main{background:rgba(7,14,28,.9);border-color:rgba(90,181,204,.34);}
+.flow-mobile-stage.stage{background:rgba(8,18,35,.94);border-color:rgba(100,189,214,.32);}
+.flow-mobile-stage.green{background:rgba(14,28,23,.94);border-color:rgba(100,226,165,.34);}
+.flow-mobile-stage.red{background:rgba(34,15,21,.94);border-color:rgba(255,126,138,.34);}
+.flow-mobile-stage.amber{background:rgba(34,23,10,.95);border-color:rgba(240,201,112,.34);}
+.flow-mobile-stage.purple{background:rgba(25,18,37,.95);border-color:rgba(200,152,255,.34);}
+.flow-mobile-stage.neutral{background:rgba(15,22,34,.94);border-color:rgba(181,200,214,.22);}
+.flow-mobile-stage .k{font-size:11px;letter-spacing:2.2px;text-transform:uppercase;color:rgba(170,204,224,.74);margin-bottom:8px;text-align:center;}
+.flow-mobile-stage .t{font-family:'Cormorant Garamond',serif;font-size:29px;line-height:1.08;color:rgba(248,251,253,.98);text-align:center;margin-bottom:10px;}
+.flow-mobile-stage .b{font-size:14px;line-height:1.8;color:rgba(240,246,250,.92);text-align:center;text-shadow:0 2px 10px rgba(0,0,0,.28);}
+.flow-mobile-stage .mini{font-size:13px;line-height:1.8;color:rgba(236,243,249,.9);text-shadow:0 2px 10px rgba(0,0,0,.28);}
+.flow-mobile-arrow{display:flex;justify-content:center;align-items:center;height:34px;color:rgba(150,208,228,.72);font-size:26px;line-height:1;margin:-4px 0 10px;}
+.flow-mobile-outcomes{display:grid;gap:12px;margin-bottom:16px;}
+.flow-mobile-outcome{border-radius:18px;padding:14px 14px 12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);}
+.flow-mobile-outcome strong{display:block;font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:rgba(247,250,252,.98);margin-bottom:8px;text-align:center;}
+.flow-mobile-outcome span{display:block;font-size:13px;line-height:1.75;color:rgba(239,245,250,.92);text-align:center;text-shadow:0 2px 10px rgba(0,0,0,.28);}
+.flow-mobile-outcome.amber{border-color:rgba(243,204,121,.24);background:rgba(243,204,121,.05);}
+.flow-mobile-outcome.green{border-color:rgba(122,236,177,.24);background:rgba(122,236,177,.05);}
+.flow-mobile-outcome.purple{border-color:rgba(204,160,255,.24);background:rgba(204,160,255,.05);}
+.flow-mobile-stage .split{display:grid;gap:12px;margin-top:12px;}
+.flow-mobile-badge{display:inline-block;margin:0 auto 8px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.05);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(240,245,249,.82);}
+
+@media(max-width:768px){
+  .flow-wrap{display:none;}
+  .flow-mobile{display:block;}
+  .flow-shell{padding:26px 18px 22px;}
+  .flow-legend{gap:10px;}
+  .flow-chip{font-size:11px;padding:8px 11px;}
+
+  nav{padding:20px 24px;}.nav-links{display:none;}
+  .sec{padding:100px 24px;}
+  .fr,.fr.rv{grid-template-columns:1fr;direction:ltr;gap:44px;}
+  .dc2,.rg,.sc2{grid-template-columns:1fr;}
+  .rc{min-height:680px;}
+  .card-media{min-height:560px;}
+  .fb{grid-template-columns:1fr;}
+  .sg,.ecr{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:16px;text-align:center;padding:28px 24px;}
+  .fls{flex-wrap:wrap;justify-content:center;}
+  .ss{gap:22px;}
+}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+
+<nav>
+  <a href="/" class="logo">LASTLY</a>
+  <ul class="nav-links">
+    <li><a href="#guardian">Guardian</a></li>
+    <li><a href="#record">Record</a></li>
+    <li><a href="#deliver">Moments</a></li>
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/support">Support</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section class="sec hero" id="hero">
+  <div class="neb"><div class="nw1"></div><div class="nw2"></div></div>
+
+
+  <p class="hero-pre">A private message, kept for when it matters most</p>
+  <h1 class="hero-name">LASTLY</h1>
+  <p class="hero-acronym">Love Across Space and Time</p>
+  <p class="hero-tag">Our <em>light</em> never truly<br>extinguishes.</p>
+
+  <div class="hero-btn-wrap">
+    <a href="#" class="btn app-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      Download on the App Store
+    </a>
+    <span class="cs csl">Coming Soon to iOS</span>
+  </div>
+  <div class="sh"><div class="sl"></div><span>Scroll</span></div>
+</section>
+
+<!-- PROBLEM -->
+<section class="sec" id="problem">
+  <div class="prob-inner">
+    <p class="lbl r">The Truth</p>
+    <p class="pb r d1">Many of us will leave this earth<br><em>so suddenly</em> — without warning —<br>with things left unsaid.</p>
+    <p class="body r d2" style="margin:0 auto;text-align:center;max-width:580px">Words we meant to speak. Feelings we assumed they already knew. Moments we kept waiting for that never came.</p>
+    <p class="pr r d3">We built Lastly because we believe no one should leave without saying goodbye</p>
+  </div>
+</section>
+
+<!-- RECORD + SCHEDULING -->
+<section class="sec" id="record">
+  <div class="fr">
+    <div>
+      <p class="lbl r">Record</p>
+      <h2 class="h2 r d1">Words when they<br>need you the most.</h2>
+      <p class="body r d2">Record audio, video, or text messages with cinematic backdrops and music. And if the words don't come easily — we can help you find them.</p>
+      <div class="pills r d2" style="margin-top:20px">
+        <span class="pill">🎬 Cinematic Backdrops</span>
+        <span class="pill">🎵 Background Music</span>
+        <span class="pill">🎙 Audio · Video · Text</span>
+      </div>
+      <div style="margin-top:40px" class="r d3">
+        <p class="lbl">Delivery</p>
+        <p class="body" style="margin-bottom:22px">Choose exactly when your message arrives. Schedule it for a specific date and time — or our guardian system can watch over your message and delivers it to the people you love in the event anything ever happens to you.</p>
+      </div>
+      <div class="sc2 r d4">
+        <div class="sc2c">
+          <span class="sc2c-i">📅</span>
+          <div class="sc2c-t">Scheduled Delivery</div>
+          <div class="sc2c-b">Pick a date and time. Your message arrives exactly when you intend — a birthday morning, a milestone, a quiet Sunday they need to hear your voice.</div>
+        </div>
+        <div class="sc2c">
+          <span class="sc2c-i">🛡</span>
+          <div class="sc2c-t">Guardian Delivery</div>
+          <div class="sc2c-b">For messages that need to reach someone no matter what. A layered human confirmation system watches over them — and delivers when the time is right.</div>
+        </div>
+      </div>
+    </div>
+    <div class="vc r d2">
+      <span class="vci">🎙</span>
+      <span class="vcl">Recording experience<br>coming soon</span>
+    </div>
+  </div>
+</section>
+
+<!-- GUARDIAN -->
+<section class="sec" id="guardian">
+  <div class="gw">
+    <p class="lbl-t lbl r">The Guardian System</p>
+    <h2 class="h2 r d1" style="max-width:800px">How Lastly watches over your message.</h2>
+    <p class="body r d2" style="max-width:720px">Thorough by design. Your message passes through every possible checkpoint — and only arrives when there's no question left that it should.</p>
+
+    <div class="flow r d3">
+      <div class="flow-shell">
+        <div class="flow-header">
+          <div class="flow-kicker">Guardian overview</div>
+          <div class="flow-title">L.A.S.T ECHO FLOW</div>
+          <p class="flow-sub">A plain-language map of how check-ins, escalation, witnesses, emergency contact, and final delivery work together. The main path runs down the center. Safe exits loop away in green. Non-response and irreversible paths appear in red.</p>
+        </div>
+
+        <div class="flow-wrap">
+          <div class="flow-wrap-inner">
+          <svg class="flow-svg" viewBox="0 0 1220 2400" aria-label="L.A.S.T Echo flow diagram">
+            <defs>
+              <marker id="arr-blue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="rgba(126,190,215,.82)"/></marker>
+              <marker id="arr-red" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="rgba(255,95,109,.96)"/></marker>
+              <marker id="arr-green" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="rgba(122,236,177,.94)"/></marker>
+              <marker id="arr-purple" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="rgba(204,160,255,.92)"/></marker>
+              <marker id="arr-amber" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="rgba(243,204,121,.92)"/></marker>
+            </defs>
+
+            <rect class="box-main" x="250" y="30" rx="30" ry="30" width="720" height="122"/>
+            <text class="label" x="610" y="70" text-anchor="middle">Starting point</text>
+            <text class="serif" x="610" y="112" font-size="34" text-anchor="middle">Your L.A.S.T. Echo is safely recorded</text>
+            <text class="small" x="610" y="140" text-anchor="middle">You choose your check-in schedule, witnesses, delivery settings, and emergency contact</text>
+
+            <path class="line" marker-end="url(#arr-blue)" d="M610 152 L610 220"/>
+
+            <rect class="box-stage" x="250" y="220" rx="28" ry="28" width="720" height="178"/>
+            <text class="label" x="610" y="260" text-anchor="middle">Stage 1 · Regular check-in</text>
+            <text class="serif" x="610" y="304" font-size="36" text-anchor="middle">Lastly checks in with you</text>
+            <text class="small" x="610" y="338" text-anchor="middle">On your chosen schedule — every 14, 30, 60, or 90 days — you receive a push notification,</text>
+            <text class="small" x="610" y="364" text-anchor="middle">an email, and a text message asking you to confirm that you are okay</text>
+
+            <rect class="box-green" x="984" y="236" rx="22" ry="22" width="170" height="116"/>
+            <text class="serif" x="1069" y="278" font-size="26" text-anchor="middle">You respond</text>
+            <text class="tiny" x="1069" y="306" text-anchor="middle">Everything resets</text>
+            <text class="tiny" x="1069" y="328" text-anchor="middle">Normal operation continues</text>
+            <path class="line-green" marker-end="url(#arr-green)" d="M970 308 L984 308"/>
+
+            <text class="label red" x="642" y="428">no response</text>
+            <path class="line-red" marker-end="url(#arr-red)" d="M610 398 L610 480"/>
+
+            <rect class="box-red" x="250" y="480" rx="28" ry="28" width="720" height="216"/>
+            <text class="label red" x="610" y="520" text-anchor="middle">Stage 2 · We try harder to reach you</text>
+            <text class="serif" x="610" y="562" font-size="34" text-anchor="middle">Three more direct attempts</text>
+            <text class="small" x="610" y="598" text-anchor="middle">Day 1 — “We missed your check-in. Just tap here to let us know you're okay.”</text>
+            <text class="small" x="610" y="626" text-anchor="middle">Day 3 — “Second attempt. We just need one tap.”</text>
+            <text class="small" x="610" y="654" text-anchor="middle">Day 7 — “Final direct attempt. If we don't hear from you, we'll contact your witnesses next.”</text>
+
+            <rect class="box-green" x="984" y="532" rx="22" ry="22" width="170" height="116"/>
+            <text class="serif" x="1069" y="574" font-size="26" text-anchor="middle">You respond</text>
+            <text class="tiny" x="1069" y="602" text-anchor="middle">Everything resets</text>
+            <text class="tiny" x="1069" y="624" text-anchor="middle">No harm done</text>
+            <path class="line-green" marker-end="url(#arr-green)" d="M970 590 L984 590"/>
+
+            <text class="label red" x="642" y="726">still no response</text>
+            <path class="line-red" marker-end="url(#arr-red)" d="M610 696 L610 770"/>
+
+            <rect class="box-red" x="310" y="770" rx="24" ry="24" width="600" height="130"/>
+            <text class="serif" x="610" y="818" font-size="31" text-anchor="middle">Day 21 — witnesses are contacted</text>
+            <text class="small" x="610" y="850" text-anchor="middle">Every witness receives the same email at the same time with three choices:</text>
+            <text class="small" x="610" y="876" text-anchor="middle">Confirm · Dismiss · “I'm not sure”</text>
+
+            <path class="line" marker-end="url(#arr-blue)" d="M610 900 L610 964"/>
+
+            <rect class="box-stage" x="170" y="964" rx="28" ry="28" width="860" height="690"/>
+            <text class="label" x="600" y="1008" text-anchor="middle">Stage 3 · Witness outcomes</text>
+            <text class="serif" x="600" y="1048" font-size="35" text-anchor="middle">What witness decisions mean</text>
+
+            <rect class="box-amber" x="228" y="1104" rx="22" ry="22" width="332" height="230"/>
+            <text class="serif" x="394" y="1150" font-size="29" text-anchor="middle">Countdown begins</text>
+            <text class="small" x="254" y="1190" text-anchor="start">Witness 1 confirms, Witness 2 confirms</text>
+            <text class="small green" x="530" y="1190" text-anchor="end">✓</text>
+            <text class="small" x="254" y="1228" text-anchor="start">Witness 1 confirms, Witness 2 no response</text>
+            <text class="small green" x="530" y="1228" text-anchor="end">✓</text>
+            <text class="small" x="254" y="1266" text-anchor="start">One witness confirms</text>
+            <text class="small green" x="530" y="1266" text-anchor="end">✓</text>
+            <text class="small" x="254" y="1304" text-anchor="start">No witnesses were chosen</text>
+            <text class="small green" x="530" y="1304" text-anchor="end">✓</text>
+
+            <rect class="box-green" x="640" y="1104" rx="22" ry="22" width="332" height="266"/>
+            <text class="serif" x="806" y="1150" font-size="29" text-anchor="middle">Everything is cancelled</text>
+            <text class="small" x="666" y="1190" text-anchor="start">Witness 1 dismisses, Witness 2 dismisses</text>
+            <text class="small green" x="942" y="1190" text-anchor="end">✓</text>
+            <text class="small" x="666" y="1228" text-anchor="start">Witness 1 confirms, Witness 2 dismisses</text>
+            <text class="small green" x="942" y="1228" text-anchor="end">✓</text>
+            <text class="small" x="666" y="1266" text-anchor="start">Witness 1 dismisses, Witness 2 no response</text>
+            <text class="small green" x="942" y="1266" text-anchor="end">✓</text>
+            <text class="small" x="666" y="1304" text-anchor="start">One witness dismisses</text>
+            <text class="small green" x="942" y="1304" text-anchor="end">✓</text>
+            <text class="small" x="806" y="1340" text-anchor="middle">Dismissal wins and check-ins continue as normal</text>
+
+            <rect class="box-purple" x="228" y="1388" rx="22" ry="22" width="332" height="194"/>
+            <text class="serif" x="394" y="1434" font-size="29" text-anchor="middle">Emergency contact is asked</text>
+            <text class="small" x="254" y="1474" text-anchor="start">Witness 1 unsure, Witness 2 unsure</text>
+            <text class="small purple" x="530" y="1474" text-anchor="end">?</text>
+            <text class="small" x="254" y="1512" text-anchor="start">One witness is unsure</text>
+            <text class="small purple" x="530" y="1512" text-anchor="end">?</text>
+            <text class="small" x="254" y="1550" text-anchor="start">Witness 1 no response, Witness 2 no response</text>
+            <text class="small purple" x="530" y="1550" text-anchor="end">?</text>
+
+            <rect class="box-neutral" x="640" y="1400" rx="22" ry="22" width="332" height="150"/>
+            <text class="serif" x="806" y="1444" font-size="29" text-anchor="middle">Best-effort rule</text>
+            <text class="small" x="806" y="1480" text-anchor="middle">If there are no witnesses at all, the witness stage is skipped</text>
+            <text class="small" x="806" y="1508" text-anchor="middle">The process moves straight to the 72-hour countdown</text>
+
+            <rect class="box-purple" x="1052" y="1086" rx="24" ry="24" width="138" height="236"/>
+            <text class="label purple" x="1121" y="1124" text-anchor="middle">Stage 3b</text>
+            <text class="serif" x="1121" y="1166" font-size="28" text-anchor="middle">Emergency</text>
+            <text class="serif" x="1121" y="1194" font-size="28" text-anchor="middle">contact</text>
+            <text class="small" x="1121" y="1238" text-anchor="middle">Confirm</text>
+            <text class="tiny amber" x="1121" y="1262" text-anchor="middle">Countdown begins</text>
+            <text class="small" x="1121" y="1302" text-anchor="middle">Dismiss or “I'm not sure”</text>
+            <text class="tiny green" x="1121" y="1326" text-anchor="middle">Everything is cancelled</text>
+
+            <rect class="box-green" x="1038" y="1450" rx="18" ry="18" width="166" height="82"/>
+            <text class="tiny" x="1121" y="1486" text-anchor="middle">Back to normal</text>
+            <text class="tiny" x="1121" y="1510" text-anchor="middle">Check-ins continue</text>
+
+            <!-- stage 3 connectors routed outside the boxes -->
+            <path class="line-amber" marker-end="url(#arr-amber)" d="M394 1334 L394 1694 L610 1694"/>
+            <path class="line-green" marker-end="url(#arr-green)" d="M806 1370 L806 1660 L1102 1660 L1102 1532"/>
+            <path class="line-purple" marker-end="url(#arr-purple)" d="M560 1486 L1012 1486 L1012 1204 L1052 1204"/>
+            <path class="line-amber" marker-end="url(#arr-amber)" d="M1121 1322 L1121 1694 L970 1694"/>
+            <path class="line-green" marker-end="url(#arr-green)" d="M1121 1328 L1121 1450"/>
+            <path class="line-green" marker-end="url(#arr-green)" d="M1038 1492 L160 1492 L160 308 L250 308"/>
+
+            <rect class="box-amber" x="250" y="1694" rx="28" ry="28" width="720" height="212"/>
+            <text class="label amber" x="610" y="1736" text-anchor="middle">Stage 4 · Final 72-hour window</text>
+            <text class="serif" x="610" y="1780" font-size="35" text-anchor="middle">One last chance to stop everything</text>
+            <text class="small" x="610" y="1818" text-anchor="middle">You receive an urgent push notification, email, and text message explaining that</text>
+            <text class="small" x="610" y="1846" text-anchor="middle">your witnesses believe you may no longer be here and that delivery will happen in 72 hours</text>
+            <text class="small" x="610" y="1874" text-anchor="middle">If you respond now, everything is cancelled and your witnesses are told it was a false alarm</text>
+
+            <rect class="box-green" x="984" y="1742" rx="22" ry="22" width="170" height="116"/>
+            <text class="serif" x="1069" y="1784" font-size="26" text-anchor="middle">You respond</text>
+            <text class="tiny" x="1069" y="1812" text-anchor="middle">Countdown stops</text>
+            <text class="tiny" x="1069" y="1834" text-anchor="middle">Back to normal</text>
+            <path class="line-green" marker-end="url(#arr-green)" d="M970 1800 L984 1800"/>
+            <path class="line-green" marker-end="url(#arr-green)" d="M1154 1800 L1178 1800 L1178 1660 L1102 1660"/>
+
+            <text class="label red" x="650" y="1938">no response after 72 hours</text>
+            <path class="line-red" marker-end="url(#arr-red)" d="M610 1906 L610 1988"/>
+
+            <rect class="box-red" x="332" y="1988" rx="26" ry="26" width="556" height="210"/>
+            <text class="label red" x="610" y="2028" text-anchor="middle">Stage 5 · Delivery</text>
+            <text class="serif" x="610" y="2070" font-size="35" text-anchor="middle">Your messages are delivered</text>
+            <text class="small" x="610" y="2106" text-anchor="middle">Recipients receive their echoes and claim codes by text and email</text>
+            <text class="small" x="610" y="2134" text-anchor="middle">If you created a series, it arrives all at once, once per day, or once per week</text>
+            <text class="small" x="610" y="2162" text-anchor="middle">Once delivery begins, it cannot be reversed</text>
+
+            <rect class="box-neutral" x="198" y="2230" rx="24" ry="24" width="824" height="128"/>
+            <text class="serif" x="610" y="2276" font-size="31" text-anchor="middle">Important safeguard</text>
+            <text class="small" x="610" y="2308" text-anchor="middle">If the full escalation process runs twice without reaching a clear answer, Lastly becomes dormant</text>
+            <text class="small" x="610" y="2336" text-anchor="middle">Your messages stay encrypted and preserved. No automatic delivery happens after that without verified manual review.</text>
+          </svg>
+          </div>
+        </div>
+
+        <div class="flow-mobile">
+          <div class="flow-mobile-stage main">
+            <div class="k">Starting point</div>
+            <div class="t">Your L.A.S.T. Echo is safely recorded</div>
+            <div class="b">You choose your check-in schedule, witnesses, delivery settings, and emergency contact.</div>
+          </div>
+          <div class="flow-mobile-arrow">↓</div>
+
+          <div class="flow-mobile-stage stage">
+            <div class="k">Stage 1 · Regular check-in</div>
+            <div class="t">Lastly checks in with you</div>
+            <div class="b">On your chosen schedule — every 14, 30, 60, or 90 days — you receive a push notification, an email, and a text message asking you to confirm that you are okay.</div>
+            <div class="split">
+              <div class="flow-mobile-outcome green"><strong>You respond</strong><span>Everything resets. Normal operation continues.</span></div>
+              <div class="flow-mobile-outcome" style="border-color:rgba(255,141,151,.24);background:rgba(255,141,151,.05);"><strong>No response</strong><span>The process moves to extra direct attempts.</span></div>
+            </div>
+          </div>
+          <div class="flow-mobile-arrow">↓</div>
+
+          <div class="flow-mobile-stage red">
+            <div class="k">Stage 2 · We try harder to reach you</div>
+            <div class="t">Three more direct attempts</div>
+            <div class="mini">Day 1 — “We missed your check-in. Just tap here to let us know you're okay.”</div>
+            <div class="mini">Day 3 — “Second attempt. We just need one tap.”</div>
+            <div class="mini">Day 7 — “Final direct attempt. If we don't hear from you, we'll contact your witnesses next.”</div>
+            <div class="split">
+              <div class="flow-mobile-outcome green"><strong>You respond</strong><span>Everything resets. No harm done.</span></div>
+              <div class="flow-mobile-outcome" style="border-color:rgba(255,141,151,.24);background:rgba(255,141,151,.05);"><strong>Still no response</strong><span>On Day 21, your witnesses are contacted.</span></div>
+            </div>
+          </div>
+          <div class="flow-mobile-arrow">↓</div>
+
+          <div class="flow-mobile-stage stage">
+            <div class="k">Stage 3 · Witness outcomes</div>
+            <div class="t">What witness decisions mean</div>
+            <div class="flow-mobile-outcomes">
+              <div class="flow-mobile-outcome amber"><strong>Countdown begins</strong><span>Witness 1 confirms, Witness 2 confirms ✓<br>Witness 1 confirms, Witness 2 no response ✓<br>One witness confirms ✓<br>No witnesses were chosen ✓</span></div>
+              <div class="flow-mobile-outcome green"><strong>Everything is cancelled</strong><span>Witness 1 dismisses, Witness 2 dismisses ✓<br>Witness 1 confirms, Witness 2 dismisses ✓<br>Witness 1 dismisses, Witness 2 no response ✓<br>One witness dismisses ✓<br>Dismissal wins and check-ins continue as normal ✓</span></div>
+              <div class="flow-mobile-outcome purple"><strong>Emergency contact is asked</strong><span>Witness 1 unsure, Witness 2 unsure ?<br>One witness is unsure ?<br>Witness 1 no response, Witness 2 no response ?</span></div>
+              <div class="flow-mobile-outcome"><strong>Best-effort rule</strong><span>If there are no witnesses at all, the witness stage is skipped and the process moves straight to the 72-hour countdown.</span></div>
+            </div>
+          </div>
+          <div class="flow-mobile-arrow">↓</div>
+
+          <div class="flow-mobile-stage purple">
+            <div class="k">Stage 3b · Emergency contact</div>
+            <div class="t">Emergency contact</div>
+            <div class="split">
+              <div class="flow-mobile-outcome amber"><strong>Confirm</strong><span>Countdown begins.</span></div>
+              <div class="flow-mobile-outcome green"><strong>Dismiss or “I'm not sure”</strong><span>Everything is cancelled and check-ins continue as normal.</span></div>
+            </div>
+          </div>
+          <div class="flow-mobile-arrow">↓</div>
+
+          <div class="flow-mobile-stage amber">
+            <div class="k">Stage 4 · Final 72-hour window</div>
+            <div class="t">One last chance to stop everything</div>
+            <div class="b">You receive an urgent push notification, email, and text message explaining that your witnesses believe you may no longer be here and that delivery will happen in 72 hours.</div>
+            <div class="split">
+              <div class="flow-mobile-outcome green"><strong>You respond</strong><span>Countdown stops. Back to normal.</span></div>
+              <div class="flow-mobile-outcome" style="border-color:rgba(255,141,151,.24);background:rgba(255,141,151,.05);"><strong>No response after 72 hours</strong><span>Your messages are delivered.</span></div>
+            </div>
+          </div>
+          <div class="flow-mobile-arrow">↓</div>
+
+          <div class="flow-mobile-stage red">
+            <div class="k">Stage 5 · Delivery</div>
+            <div class="t">Your messages are delivered</div>
+            <div class="b">Recipients receive their echoes and claim codes by text and email. If you created a series, it arrives all at once, once per day, or once per week. Once delivery begins, it cannot be reversed.</div>
+          </div>
+          <div class="flow-mobile-arrow">↓</div>
+
+          <div class="flow-mobile-stage neutral">
+            <div class="k">Important safeguard</div>
+            <div class="t">Thorough by design</div>
+            <div class="b">If the full escalation process runs twice without reaching a clear answer, Lastly becomes dormant. Your messages stay encrypted and preserved. No automatic delivery happens after that without verified manual review.</div>
+          </div>
+        </div>
+
+        <div class="flow-legend">
+          <span class="flow-chip"><span class="flow-dot" style="background:#7ebed7"></span> normal stage progression</span>
+          <span class="flow-chip"><span class="flow-dot" style="background:#7aecb1"></span> safe cancellation</span>
+          <span class="flow-chip"><span class="flow-dot" style="background:#ff8d97"></span> non-response / escalation</span>
+          <span class="flow-chip"><span class="flow-dot" style="background:#cca0ff"></span> emergency contact path</span>
+          <span class="flow-chip"><span class="flow-dot" style="background:#f3cc79"></span> countdown / final delivery path</span>
+        </div>
+
+        <div class="flow-grid">
+          <div class="flow-panel">
+            <h3>What witnesses can do</h3>
+            <p>Your witnesses never see your message. They only receive a request asking whether you may have passed away. Their role is to slow the process down, not speed it up.</p>
+          </div>
+          </div>
+          <div class="flow-panel">
+            <h3>The rule that never changes</h3>
+            <p>At every stage before delivery, one tap from you stops the process. That is true during regular check-ins, during the extra direct attempts, and during the final 72-hour warning window.</p>
+            <div class="outcome-list">
+              <div class="outcome-item green"><strong>If you respond</strong><span>Everything resets, the alarm is cleared, and the next scheduled check-in is set as normal.</span></div>
+              <div class="outcome-item red"><strong>If no one can confirm</strong><span>Lastly resets the clock and starts the cycle over one more time — it checks in with the user again, escalates to witnesses again, and if witnesses are still unsure or their responses conflict, the messages are kept safe and encrypted indefinitely unless a witness, an emergency contact, or our support team provides verified confirmation.</span></div>
+              <div class="outcome-item amber"><strong>Only one irreversible moment exists</strong><span>Once the 72-hour window ends without a response and delivery begins, the process is complete and can no longer be undone.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <p class="flow-foot">Silence alone will never deliver your messages.<br>Lastly is built to be certain, not fast.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECIPIENT — 4 slots -->
+<section class="sec" id="recipient">
+  <div class="rw">
+    <p class="lbl r">For Recipients</p>
+    <h2 class="h2 r d1" style="text-align:center;max-width:700px;margin:0 auto 20px">What they receive.</h2>
+    <p class="body r d2" style="margin:0 auto;text-align:center;max-width:560px">More than a message. A moment. Every format is designed to feel intimate, intentional, and worthy of what was said. Receiving a Lastly echo is always free.</p>
+
+    <div class="rg r d3">
+      <div class="rc">
+        <div class="rc-tint"></div>
+        <div class="card-media" style="overflow:hidden;">
+          <video autoplay muted loop playsinline style="transform:scale(2.4);transform-origin:center center;">
+            <source src="sambeemp4.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="rct">Text</div>
+        <div class="rcs">Word by word reveal · parchment & blossom</div>
+      </div>
+      <div class="rc">
+        <div class="rc-tint"></div>
+        <div class="card-media">
+          <video autoplay muted loop playsinline>
+           <source src="oliver.mp4" type="video/mp4">
+        </video>
+        </div>
+        <div class="rct">Audio</div>
+        <div class="rcs">Full quality · immersive playback</div>
+      </div>
+      <div class="rc">
+        <div class="rc-tint"></div>
+        <div class="card-media">
+          <span class="rci">✍️</span>
+        </div>
+        <div class="rct">Text</div>
+        <div class="rcs">Word by word reveal · parchment & blossom</div>
+      </div>
+      <div class="rc">
+        <div class="rc-tint"></div>
+        <div class="card-media">
+          <span class="rci">🎵</span>
+        </div>
+        <div class="rct">Chorus</div>
+        <div class="rcs">Multiple voices · assembled as one</div>
+      </div>
+    </div>
+
+    <p class="fq r d4">"Make sure your loved ones know you’re forever present."</p>
+  </div>
+</section>
+
+<!-- DELIVER — 4 categories -->
+<section class="sec" id="deliver">
+  <div class="dw">
+    <p class="lbl r" style="color:rgba(235,228,255,.42)">For Every Moment</p>
+    <h2 class="h2 r d1" style="max-width:640px;margin:0 auto 18px;text-align:center">Some families live miles apart,<br>separated by oceans.</h2>
+    <p class="body r d2" style="margin:0 auto;text-align:center;max-width:580px">Record your message and have it delivered right on time — so the people you love can feel your presence, no matter where in the world they are.</p>
+    <div class="dc2">
+      <div class="dc r">
+        <span class="dci">🎂</span>
+        <h3 class="dct">Celebrations</h3>
+        <p class="dcb">Birthdays, anniversaries, graduations, holidays. Let Lastly remind you of important dates and deliver your message right on time — every year, without fail.</p>
+      </div>
+      <div class="dc r d1">
+        <span class="dci">🌱</span>
+        <h3 class="dct">Milestones</h3>
+        <p class="dcb">First days, new babies, weddings, retirements. The moments that define a life — record what you want to say before the moment even arrives.</p>
+      </div>
+      <div class="dc r d2">
+        <span class="dci">🪞</span>
+        <h3 class="dct">Personal</h3>
+        <p class="dcb">Letters to your future self. Goal accountability. Therapy reflections. A message from who you are today to who you're becoming — delivered exactly when you need it.</p>
+      </div>
+      <div class="dc r d3">
+        <span class="dci">🎵</span>
+        <h3 class="dct">Chorus</h3>
+        <p class="dcb">Invite friends and family to each contribute a short message. Lastly assembles every voice into one beautiful delivery — a group echo that arrives as one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="sec" id="download">
+  <div class="ctaw">
+    <p class="lbl lbl-d r">Don't wait</p>
+    <h2 class="ctat r d1">Don't leave without saying<br>everything you needed to say.</h2>
+    <span class="ctawm r d2">LASTLY</span>
+    <div class="r d3">
+      <button class="btn btn-d app-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Download on the App Store
+      </button>
+      <span class="cs csd" style="display:block;margin-top:14px">Coming Soon to iOS</span>
+    </div>
+    <div class="ss r d4">
+      <div class="si"><span class="sii">🔐</span><span class="sil">AES-256<br>Encrypted</span></div>
+      <div class="si"><span class="sii">🚫</span><span class="sil">Never Sold<br>Never Shared</span></div>
+      <div class="si"><span class="sii">🤝</span><span class="sil">Human Confirmation<br>Only</span></div>
+      <div class="si"><span class="sii">💙</span><span class="sil">Always Free<br>to Receive</span></div>
+    </div>
+    <div class="qcard r d4" style="max-width:760px;margin:54px auto 0;">
+      <p class="qt">“Love is the one thing we’re capable of perceiving that transcends time and space.”</p>
+      <p class="qa">— Interstellar · Christopher & Jonathan Nolan · Warner Bros. Pictures, 2014</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <a href="/" class="fl">LASTLY</a>
+  <ul class="fls">
+    <li><a href="/privacy">Privacy Policy</a></li>
+    <li><a href="/support">Support</a></li>
+    <li><a href="mailto:hello@lastlyapp.com">Contact</a></li>
+  </ul>
+  <p class="fc2">© 2026 Lastly. All rights reserved.</p>
+</footer>
+
+<script>
+// ============================================================
+// BACKGROUND ENGINE — Luminous blue-white architectural light
+// Smooth flowing gradients, soft blurred light forms, floor glow lines
+// Zero grain, zero particles, zero noise
+// ============================================================
+(function(){
+  const cv = document.getElementById('bg');
+  const cx = cv.getContext('2d');
+  let W, H, t = 0;
+  let targetSy = 0, smoothSy = 0;
+
+  function rsz(){
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    cv.width = W * dpr;
+    cv.height = H * dpr;
+    cv.style.width = W + 'px';
+    cv.style.height = H + 'px';
+    cx.scale(dpr, dpr);
+  }
+
+  function lerp(a, b, p){ return a + (b - a) * p; }
+
+  function blob(x, y, rx, ry, r, g, b, a){
+    const grad = cx.createRadialGradient(x, y, 0, x, y, Math.max(rx, ry));
+    grad.addColorStop(0, 'rgba('+r+','+g+','+b+','+a+')');
+    grad.addColorStop(0.35, 'rgba('+r+','+g+','+b+','+(a*0.5)+')');
+    grad.addColorStop(0.7, 'rgba('+r+','+g+','+b+','+(a*0.15)+')');
+    grad.addColorStop(1, 'rgba('+r+','+g+','+b+',0)');
+    cx.save();
+    cx.beginPath();
+    cx.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2);
+    cx.fillStyle = grad;
+    cx.fill();
+    cx.restore();
+  }
+
+  function floorLine(y, alpha, thick){
+    const grad = cx.createLinearGradient(0, y, W, y);
+    grad.addColorStop(0, 'rgba(255,255,255,0)');
+    grad.addColorStop(0.2, 'rgba(200,220,245,'+alpha+')');
+    grad.addColorStop(0.4, 'rgba(230,240,255,'+(alpha*1.6)+')');
+    grad.addColorStop(0.5, 'rgba(245,250,255,'+(alpha*2)+')');
+    grad.addColorStop(0.6, 'rgba(230,240,255,'+(alpha*1.6)+')');
+    grad.addColorStop(0.8, 'rgba(200,220,245,'+alpha+')');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    cx.fillStyle = grad;
+    cx.fillRect(0, y - thick/2, W, thick);
+  }
+
+  function draw(){
+    t += 0.003;
+    const s = Math.sin, c = Math.cos;
+    const docH = document.documentElement.scrollHeight - H;
+    smoothSy += (targetSy - smoothSy) * 0.06;
+    const sf = Math.min(smoothSy / Math.max(docH, 1), 1);
+
+    cx.save();
+    cx.setTransform(1,0,0,1,0,0);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cx.scale(dpr, dpr);
+
+    // Base gradient — pale blue top to deeper blue bottom, shifts with scroll
+    const topR = lerp(220,160,sf), topG = lerp(236,185,sf), topB = lerp(248,220,sf);
+    const midR = lerp(195,110,sf), midG = lerp(215,145,sf), midB = lerp(240,200,sf);
+    const botR = lerp(175,60,sf), botG = lerp(200,100,sf), botB = lerp(235,170,sf);
+
+    const bg = cx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, 'rgb('+topR+','+topG+','+topB+')');
+    bg.addColorStop(0.4, 'rgb('+midR+','+midG+','+midB+')');
+    bg.addColorStop(1, 'rgb('+botR+','+botG+','+botB+')');
+    cx.fillStyle = bg;
+    cx.fillRect(0, 0, W, H);
+
+    // Large luminous light forms — extremely soft, slow-moving
+    // Blob 1 — top-left warm white light (window light effect)
+    blob(
+      W*0.28 + s(t*0.5)*W*0.06,
+      H*0.22 + c(t*0.4)*H*0.05,
+      W*0.5, H*0.4,
+      255, 255, 255, lerp(0.28, 0.18, sf)
+    );
+
+    // Blob 2 — center-right soft blue wash
+    blob(
+      W*0.72 + s(t*0.35+1.5)*W*0.05,
+      H*0.3 + c(t*0.45+0.8)*H*0.06,
+      W*0.4, H*0.35,
+      210, 225, 250, lerp(0.2, 0.12, sf)
+    );
+
+    // Blob 3 — bottom center diffuse glow
+    blob(
+      W*0.5 + s(t*0.25+3)*W*0.08,
+      H*0.72 + c(t*0.3+1.2)*H*0.04,
+      W*0.55, H*0.3,
+      200, 218, 245, lerp(0.15, 0.22, sf)
+    );
+
+    // Blob 4 — subtle top-right accent
+    blob(
+      W*0.82 + s(t*0.4+4.5)*W*0.03,
+      H*0.12 + c(t*0.35+2)*H*0.03,
+      W*0.3, H*0.25,
+      240, 245, 255, lerp(0.15, 0.08, sf)
+    );
+
+    // Blob 5 — lower-left depth
+    blob(
+      W*0.18 + s(t*0.45+2.2)*W*0.05,
+      H*0.82 + c(t*0.38+3.5)*H*0.03,
+      W*0.35, H*0.22,
+      185, 205, 235, lerp(0.1, 0.18, sf)
+    );
+
+    // Subtle diagonal silk wash — architectural light beam
+    cx.save();
+    cx.globalAlpha = lerp(0.08, 0.04, sf);
+    cx.translate(W*0.5, H*0.5);
+    cx.rotate(-0.15 + s(t*0.2)*0.03);
+    blob(0, -H*0.1, W*0.7, H*0.15, 255, 252, 248, 0.5);
+    cx.restore();
+
+    // Floor glow lines — futuristic horizon near lower third
+    const floorY = H * 0.73 + s(t*0.3)*4;
+    floorLine(floorY, lerp(0.05, 0.08, sf), 2.5);
+    floorLine(floorY + 35 + s(t*0.5+1)*5, lerp(0.035, 0.06, sf), 1.8);
+    floorLine(floorY + 70 + s(t*0.4+2)*7, lerp(0.02, 0.04, sf), 1.2);
+
+    cx.restore();
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('scroll', () => { targetSy = window.scrollY; }, { passive: true });
+  window.addEventListener('resize', () => { rsz(); });
+  rsz();
+  draw();
+})();
+
+// Scroll reveals
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('on'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
+</script>
+
+<audio id="bgMusic" src="music888.mp3" preload="auto" loop playsinline></audio>
+
+<script>
+(function () {
+  const music = document.getElementById('bgMusic');
+  const recipientSection = document.getElementById('recipient');
+  let musicStarted = false;
+
+  if (!music || !recipientSection) return;
+
+  function isRecipientVisible() {
+    const rect = recipientSection.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const visibleTop = Math.max(rect.top, 0);
+    const visibleBottom = Math.min(rect.bottom, vh);
+    const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+    return visibleHeight >= Math.min(rect.height * 0.15, vh * 0.15);
+  }
+
+  function tryStartMusicFromGesture() {
+    if (musicStarted) return;
+    if (!isRecipientVisible()) return;
+
+    music.volume = 0.9;
+    music.loop = true;
+    music.muted = false;
+
+    music.play().then(() => {
+      musicStarted = true;
+      removeGestureListeners();
+    }).catch(() => {});
+  }
+
+  function removeGestureListeners() {
+    ['wheel', 'touchstart', 'pointerdown', 'keydown', 'click'].forEach(event => {
+      window.removeEventListener(event, tryStartMusicFromGesture, true);
+    });
+  }
+
+  ['wheel', 'touchstart', 'pointerdown', 'keydown', 'click'].forEach(event => {
+    window.addEventListener(event, tryStartMusicFromGesture, { passive: true, capture: true });
+  });
+})();
+</script>
+
+</body>
+</html>
