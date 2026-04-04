@@ -1489,6 +1489,27 @@ window.addEventListener('scroll', startMusic, { once: true });
 window.addEventListener('wheel', startMusic, { once: true });
 window.addEventListener('touchstart', startMusic, { once: true });
 window.addEventListener('keydown', startMusic, { once: true });
+  <audio id="bgMusic" src="music888.mp3" preload="auto" loop></audio>
+
+<script>
+let musicStarted = false;
+const music = document.getElementById('bgMusic');
+
+function startMusic() {
+  if (musicStarted) return;
+  musicStarted = true;
+
+  music.volume = 0.9;
+  music.loop = true;
+
+  music.play().catch(() => {});
+}
+
+['scroll','wheel','touchstart','click','keydown'].forEach(event => {
+  window.addEventListener(event, startMusic, { once: true, passive: true });
+});
+</script>
+</body>
 </script>
 </body>
 </html>
