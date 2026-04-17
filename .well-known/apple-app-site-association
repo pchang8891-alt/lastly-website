@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "AKM6J679LD.com.legacyechoes.app",
+        "paths": ["/auth/*"]
+      }
+    ]
+  }
+}
