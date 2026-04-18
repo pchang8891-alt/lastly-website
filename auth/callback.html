@@ -8,13 +8,27 @@
     body { font-family: -apple-system, sans-serif; background: #0a0a1a; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; text-align: center; }
     .card { max-width: 360px; padding: 40px; }
     h1 { font-size: 24px; margin-bottom: 12px; }
-    p { color: rgba(255,255,255,0.6); line-height: 1.6; }
+    p { color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 24px; }
+    .btn { display: inline-block; background: rgba(255,210,100,0.25); border: 1.5px solid rgba(255,220,130,0.6); color: #fff; font-size: 17px; font-weight: 600; padding: 16px 32px; border-radius: 14px; text-decoration: none; }
   </style>
+  <script>
+    // Try to open the app automatically via custom scheme
+    window.onload = function() {
+      var hash = window.location.hash;
+      var appUrl = 'legacyapp://auth/callback' + hash;
+      window.location.href = appUrl;
+    };
+  </script>
 </head>
 <body>
   <div class="card">
     <h1>Email verified!</h1>
-    <p>Open the Lastly app to continue. If it didn't open automatically, tap the link in your email again from your phone.</p>
+    <p>If the app didn't open automatically, tap the button below.</p>
+    <a class="btn" id="openApp" href="#">Open Lastly</a>
   </div>
+  <script>
+    var hash = window.location.hash;
+    document.getElementById('openApp').href = 'legacyapp://auth/callback' + hash;
+  </script>
 </body>
 </html>
