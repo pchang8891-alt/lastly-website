@@ -1,300 +1,489 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Lastly</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Georgia', serif;
-      background: #0a0a1a;
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 24px;
-    }
-    .card {
-      max-width: 440px;
-      width: 100%;
-      padding: 32px 28px;
-    }
-    h1 {
-      font-weight: 300;
-      font-size: 26px;
-      line-height: 1.3;
-      text-align: center;
-      margin-bottom: 32px;
-      color: rgba(255,255,255,0.95);
-    }
-    h1 .name { color: #D4A853; }
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 24px;
-    }
-    .option {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px 18px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,220,130,0.2);
-      border-radius: 14px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      text-align: left;
-      width: 100%;
-      color: #fff;
-      font-family: inherit;
-      font-size: 16px;
-    }
-    .option:hover, .option:active, .option.selected {
-      background: rgba(255,220,130,0.12);
-      border-color: rgba(255,220,130,0.6);
-    }
-    .option .emoji { font-size: 26px; }
-    .option .label { flex: 1; }
-    textarea {
-      width: 100%;
-      min-height: 80px;
-      padding: 14px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 12px;
-      color: #fff;
-      font-family: inherit;
-      font-size: 15px;
-      resize: vertical;
-      margin-bottom: 16px;
-    }
-    textarea::placeholder { color: rgba(255,255,255,0.35); }
-    textarea:focus { outline: none; border-color: rgba(255,220,130,0.5); }
-    .char-count {
-      font-size: 12px;
-      color: rgba(255,255,255,0.4);
-      text-align: right;
-      margin-top: -8px;
-      margin-bottom: 16px;
-    }
-    .submit-btn {
-      width: 100%;
-      padding: 16px;
-      background: rgba(255,210,100,0.25);
-      border: 1.5px solid rgba(255,220,130,0.7);
-      border-radius: 14px;
-      color: #fff;
-      font-family: inherit;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .submit-btn:hover:not(:disabled) { background: rgba(255,210,100,0.4); }
-    .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .footer {
-      margin-top: 32px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      font-size: 13px;
-      color: rgba(255,255,255,0.45);
-      text-align: center;
-      line-height: 1.6;
-    }
-    .footer a { color: #D4A853; text-decoration: none; }
-    .how-link {
-      display: inline-block;
-      margin-top: 8px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.35);
-      cursor: pointer;
-      text-decoration: underline;
-    }
-    .how-body {
-      display: none;
-      font-size: 12px;
-      color: rgba(255,255,255,0.55);
-      margin-top: 10px;
-      line-height: 1.6;
-      text-align: left;
-    }
-    .how-body.open { display: block; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lastly — Checking in on you</title>
+<meta name="description" content="A friend is thinking of you. Let them know how you're doing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
 
-    /* Success state */
-    .success { display: none; text-align: center; }
-    .success.show { display: block; }
-    .success-emoji { font-size: 48px; margin-bottom: 16px; }
-    .success h2 {
-      font-weight: 300;
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-    .success p {
-      font-size: 15px;
-      color: rgba(255,255,255,0.7);
-      line-height: 1.6;
-      margin-bottom: 28px;
-    }
-    .cta-card {
-      margin-top: 40px;
-      padding: 24px 20px;
-      background: rgba(255,220,130,0.08);
-      border: 1px solid rgba(255,220,130,0.25);
-      border-radius: 16px;
-    }
-    .cta-card h3 {
-      font-weight: 400;
-      font-size: 17px;
-      margin-bottom: 10px;
-    }
-    .cta-card p {
-      font-size: 13px;
-      margin-bottom: 16px;
-      color: rgba(255,255,255,0.7);
-    }
-    .cta-btn {
-      display: inline-block;
-      padding: 10px 22px;
-      background: #D4A853;
-      color: #0a0a1a;
-      text-decoration: none;
-      font-weight: 600;
-      border-radius: 12px;
-      font-size: 14px;
-    }
+body{
+  font-family:'Inter',sans-serif;
+  font-weight:300;
+  color:#1a2a42;
+  min-height:100vh;
+  background:#b8d2e4;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
 
-    /* Error state */
-    .error { display: none; text-align: center; }
-    .error.show { display: block; }
-    .error h2 {
-      font-weight: 300;
-      font-size: 22px;
-      color: rgba(255,140,140,0.95);
-      margin-bottom: 12px;
-    }
-    .error p { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.6; }
-  </style>
+/* Nebula wisps — matching website hero */
+.neb{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
+.nw1{position:absolute;top:8%;left:-6%;width:70%;height:50%;background:radial-gradient(ellipse at 40% 45%,rgba(124,154,196,.14) 0%,rgba(138,145,183,.08) 30%,rgba(241,214,183,.06) 55%,transparent 78%);border-radius:50%;animation:nw1a 18s ease-in-out infinite;filter:blur(8px);}
+.nw2{position:absolute;bottom:-4%;right:-4%;width:50%;height:42%;background:radial-gradient(ellipse,rgba(150,182,217,.1) 0%,rgba(244,222,193,.06) 36%,transparent 68%);border-radius:50%;animation:nw2a 20s ease-in-out infinite;filter:blur(10px);}
+@keyframes nw1a{0%,100%{opacity:.8;transform:scale(1) rotate(0deg);}50%{opacity:1;transform:scale(1.08) rotate(2deg);}}
+@keyframes nw2a{0%,100%{opacity:.55;}50%{opacity:.9;transform:scale(1.06);}}
+
+/* NAV — matches website */
+nav{
+  position:relative;z-index:10;
+  padding:28px 32px;
+  display:flex;justify-content:center;align-items:center;
+}
+.logo{
+  font-family:'Prata',serif;font-weight:400;font-size:18px;letter-spacing:12px;
+  color:rgba(20,30,50,.85);text-decoration:none;
+}
+
+/* MAIN */
+main{
+  position:relative;z-index:2;
+  max-width:520px;
+  margin:0 auto;
+  padding:16px 24px 60px;
+}
+
+/* Kicker */
+.kicker{
+  text-align:center;
+  font-size:10px;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(30,50,80,.62);
+  margin-bottom:20px;
+  font-weight:500;
+}
+
+/* Hero tagline */
+.tag{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(30px,7vw,42px);
+  line-height:1.2;
+  letter-spacing:.01em;
+  text-align:center;
+  margin-bottom:8px;
+  color:rgba(20,35,60,.95);
+}
+.tag em{
+  font-style:italic;font-weight:500;
+  background:linear-gradient(135deg,#4a6db5 0%,#7857c8 52%,#a86ec4 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sub{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
+  font-size:15px;
+  text-align:center;
+  color:rgba(30,50,80,.62);
+  margin-bottom:36px;
+}
+
+/* Glass shell — holds everything */
+.shell{
+  position:relative;
+  padding:28px 24px 24px;
+  border-radius:28px;
+  border:1px solid rgba(255,255,255,.5);
+  border-top-color:rgba(255,255,255,.72);
+  background:linear-gradient(165deg,rgba(255,255,255,.55) 0%,rgba(248,252,255,.35) 54%,rgba(230,240,250,.45) 100%);
+  backdrop-filter:blur(22px) saturate(130%);
+  box-shadow:0 20px 65px rgba(20,40,80,.12),inset 0 1px 0 rgba(255,255,255,.7);
+}
+
+/* Option cards */
+.options{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+.option{
+  display:flex;align-items:center;gap:16px;
+  padding:18px 20px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.55);
+  background:linear-gradient(145deg,rgba(255,255,255,.48),rgba(255,255,255,.28));
+  backdrop-filter:blur(14px);
+  cursor:pointer;
+  transition:all .25s cubic-bezier(.2,.8,.2,1);
+  width:100%;
+  text-align:left;
+  font-family:inherit;
+  -webkit-tap-highlight-color:transparent;
+  box-shadow:0 4px 18px rgba(20,40,80,.04),inset 0 1px 0 rgba(255,255,255,.6);
+}
+.option:hover{
+  border-color:rgba(120,87,200,.4);
+  background:linear-gradient(145deg,rgba(255,255,255,.65),rgba(235,228,255,.4));
+  transform:translateY(-2px);
+  box-shadow:0 12px 32px rgba(120,87,200,.12),inset 0 1px 0 rgba(255,255,255,.7);
+}
+.option.selected{
+  border-color:rgba(120,87,200,.65);
+  border-top-color:rgba(138,105,215,.8);
+  background:linear-gradient(145deg,rgba(235,228,255,.65),rgba(220,210,252,.45));
+  box-shadow:0 16px 40px rgba(120,87,200,.18),inset 0 1px 0 rgba(255,255,255,.7);
+}
+.option .emoji{font-size:28px;line-height:1;flex-shrink:0;}
+.option .label{
+  flex:1;
+  font-family:'Cormorant Garamond',serif;
+  font-weight:400;
+  font-size:18px;
+  color:rgba(25,40,65,.88);
+  letter-spacing:.01em;
+}
+.option.selected .label{color:rgba(75,55,150,.95);font-weight:500;}
+
+/* Textarea */
+.textarea-wrap{margin-bottom:6px;}
+textarea{
+  width:100%;
+  min-height:82px;
+  padding:14px 16px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.55);
+  background:rgba(255,255,255,.38);
+  backdrop-filter:blur(10px);
+  color:rgba(20,35,60,.95);
+  font-family:'Cormorant Garamond',serif;
+  font-weight:400;font-size:16px;line-height:1.5;
+  resize:vertical;
+  outline:none;
+  transition:all .2s ease;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
+}
+textarea::placeholder{color:rgba(30,50,80,.42);font-style:italic;}
+textarea:focus{
+  border-color:rgba(120,87,200,.5);
+  background:rgba(255,255,255,.55);
+  box-shadow:0 0 0 3px rgba(120,87,200,.08),inset 0 1px 0 rgba(255,255,255,.6);
+}
+.char-count{
+  font-size:11px;letter-spacing:.5px;
+  color:rgba(30,50,80,.4);
+  text-align:right;
+  margin-top:6px;
+  margin-bottom:20px;
+  font-weight:500;
+}
+
+/* Submit button — pill matching .btn */
+.submit-btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;
+  padding:18px 32px;
+  border-radius:60px;
+  border:1px solid rgba(80,60,160,.3);
+  background:linear-gradient(135deg,#3a2a78 0%,#5a3da8 54%,#7857c8 100%);
+  color:#fff;
+  font-family:'Inter',sans-serif;
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:500;
+  cursor:pointer;
+  transition:all .3s ease;
+  box-shadow:0 14px 40px rgba(80,60,160,.22),inset 0 1px 0 rgba(255,255,255,.14);
+  outline:none;
+}
+.submit-btn:hover:not(:disabled){
+  transform:translateY(-2px);
+  box-shadow:0 20px 50px rgba(80,60,160,.3),inset 0 1px 0 rgba(255,255,255,.2);
+}
+.submit-btn:active{transform:translateY(0);}
+.submit-btn:disabled{opacity:.38;cursor:not-allowed;background:linear-gradient(135deg,rgba(60,50,100,.5),rgba(90,80,150,.5));}
+
+/* Footer */
+.footer{
+  margin-top:28px;
+  text-align:center;
+}
+.how-link{
+  font-size:10px;letter-spacing:2.5px;text-transform:uppercase;
+  color:rgba(30,50,80,.48);
+  cursor:pointer;
+  transition:color .2s;
+  font-weight:500;
+}
+.how-link:hover{color:rgba(30,50,80,.75);}
+.how-body{
+  display:none;
+  margin-top:14px;padding:16px 18px;
+  border-radius:14px;
+  background:rgba(255,255,255,.3);
+  border:1px solid rgba(255,255,255,.45);
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px;line-height:1.7;
+  color:rgba(30,50,80,.8);
+  text-align:left;
+  backdrop-filter:blur(10px);
+}
+.how-body.open{display:block;}
+.how-body a{color:rgba(75,55,150,.9);text-decoration:none;font-weight:500;}
+.how-body a:hover{text-decoration:underline;}
+
+/* SUCCESS */
+.success{display:none;text-align:center;}
+.success.show{display:block;animation:fu .8s ease;}
+.success-emoji{font-size:56px;margin-bottom:20px;animation:pulse 2s ease-in-out infinite;}
+.success-tag{
+  font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  font-size:clamp(26px,6vw,36px);
+  line-height:1.25;
+  color:rgba(20,35,60,.95);
+  margin-bottom:16px;
+}
+.success-body{
+  font-size:15px;line-height:1.7;
+  color:rgba(30,50,80,.75);
+  margin-bottom:40px;
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+}
+.cta-card{
+  padding:26px 22px;
+  border-radius:22px;
+  border:1px solid rgba(120,87,200,.25);
+  background:linear-gradient(165deg,rgba(120,87,200,.08) 0%,rgba(80,60,160,.05) 100%);
+  backdrop-filter:blur(14px);
+  text-align:center;
+  box-shadow:0 12px 32px rgba(80,60,160,.08),inset 0 1px 0 rgba(255,255,255,.5);
+}
+.cta-kicker{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(75,55,150,.7);
+  margin-bottom:10px;font-weight:500;
+}
+.cta-title{
+  font-family:'Cormorant Garamond',serif;font-weight:400;
+  font-size:20px;line-height:1.35;
+  color:rgba(20,35,60,.95);
+  margin-bottom:20px;
+}
+.cta-btn{
+  display:inline-block;
+  padding:14px 32px;
+  border-radius:60px;
+  background:#080420;
+  color:#f7f7fb;
+  text-decoration:none;
+  font-family:'Inter',sans-serif;
+  font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;
+  box-shadow:0 10px 28px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.08);
+  transition:all .3s ease;
+}
+.cta-btn:hover{background:#000;box-shadow:0 14px 36px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.12);transform:translateY(-1px);}
+
+/* ERROR */
+.error{display:none;text-align:center;padding:20px 0;}
+.error.show{display:block;animation:fu .6s ease;}
+.error-icon{font-size:42px;margin-bottom:18px;opacity:.5;}
+.error-title{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:22px;
+  color:rgba(40,25,50,.92);
+  margin-bottom:10px;
+}
+.error-body{
+  font-size:14px;line-height:1.65;
+  color:rgba(30,50,80,.65);
+  font-family:'Cormorant Garamond',serif;
+}
+
+/* Animations */
+@keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+
+/* Entrance */
+.anim{opacity:0;animation:fu 1s ease forwards;}
+.anim-1{animation-delay:.1s;}
+.anim-2{animation-delay:.2s;}
+.anim-3{animation-delay:.35s;}
+.anim-4{animation-delay:.5s;}
+
+/* Mobile */
+@media(max-width:480px){
+  nav{padding:22px 20px;}
+  .logo{font-size:16px;letter-spacing:10px;}
+  main{padding:8px 16px 48px;}
+  .shell{padding:22px 18px 20px;}
+  .option{padding:16px 16px;gap:14px;}
+  .option .emoji{font-size:26px;}
+  .option .label{font-size:17px;}
+}
+</style>
 </head>
 <body>
-  <div class="card">
-    <!-- Poll state -->
-    <div id="poll-state">
-      <h1 id="prompt">How are you doing?</h1>
+
+<div class="neb">
+  <div class="nw1"></div>
+  <div class="nw2"></div>
+</div>
+
+<nav>
+  <span class="logo">LASTLY</span>
+</nav>
+
+<main>
+  <!-- POLL STATE -->
+  <div id="poll-state">
+    <p class="kicker anim anim-1">Someone is thinking of you</p>
+    <h1 class="tag anim anim-2">How are you <em>doing</em>?</h1>
+    <p class="sub anim anim-3">Tap one — it only takes a second</p>
+
+    <div class="shell anim anim-4">
       <div class="options" id="options">
-        <button class="option" data-type="great"><span class="emoji">🌟</span><span class="label">I'm doing great</span></button>
-        <button class="option" data-type="well"><span class="emoji">😊</span><span class="label">I'm doing well</span></button>
-        <button class="option" data-type="getting_by"><span class="emoji">🙂</span><span class="label">I'm getting by</span></button>
-        <button class="option" data-type="down"><span class="emoji">😔</span><span class="label">I'm feeling down</span></button>
-        <button class="option" data-type="not_well"><span class="emoji">💔</span><span class="label">I'm not doing well</span></button>
+        <button class="option" data-type="great">
+          <span class="emoji">🌟</span>
+          <span class="label">I'm doing great</span>
+        </button>
+        <button class="option" data-type="well">
+          <span class="emoji">😊</span>
+          <span class="label">I'm doing well</span>
+        </button>
+        <button class="option" data-type="getting_by">
+          <span class="emoji">🙂</span>
+          <span class="label">I'm getting by</span>
+        </button>
+        <button class="option" data-type="down">
+          <span class="emoji">😔</span>
+          <span class="label">I'm feeling down</span>
+        </button>
+        <button class="option" data-type="not_well">
+          <span class="emoji">💔</span>
+          <span class="label">I'm not doing well</span>
+        </button>
       </div>
-      <textarea id="response-text" placeholder="Want to say something? (optional)" maxlength="280"></textarea>
-      <div class="char-count"><span id="count">0</span>/280</div>
-      <button class="submit-btn" id="submit-btn" disabled>Send</button>
-      <div class="footer">
-        <span class="how-link" id="how-link">How did this happen?</span>
-        <div class="how-body" id="how-body">
-          Someone who cares about you added you to their Lastly circle — an automated way for loved ones to stay gently connected. Lastly lets you record voice, video, and written messages for the people who matter most. <a href="https://lastlyapp.com">Learn more at lastlyapp.com</a>
-        </div>
+
+      <div class="textarea-wrap">
+        <textarea id="response-text" placeholder="Want to say something? (optional)" maxlength="280"></textarea>
+        <div class="char-count"><span id="count">0</span> / 280</div>
       </div>
+
+      <button class="submit-btn" id="submit-btn" disabled>
+        <span id="submit-text">Send</span>
+      </button>
     </div>
 
-    <!-- Success state -->
-    <div class="success" id="success-state">
-      <div class="success-emoji">❤️</div>
-      <h2 id="success-title">They'll know you're thinking of them.</h2>
-      <p id="success-body"></p>
-      <div class="cta-card">
-        <h3>Send a message they'll never forget</h3>
-        <p>Lastly lets you record voice, video, and written messages for the people who matter most — delivered now, on a future date, or when the time is right.</p>
-        <a class="cta-btn" href="https://lastlyapp.com">Download Lastly</a>
+    <div class="footer">
+      <span class="how-link" id="how-link">Why am I receiving this?</span>
+      <div class="how-body" id="how-body">
+        Someone who cares about you added you to their Lastly circle — a gentle, automated way for loved ones to stay connected. Every so often, they'll send a quick check-in to see how you're doing, and you can send one back.
+        <br><br>
+        Lastly is an app for recording voice, video, and written messages for the people who matter most — delivered now, on a future date, or when the time is right. <a href="https://lastlyapp.com" target="_blank" rel="noopener">Learn more at lastlyapp.com</a>.
       </div>
-    </div>
-
-    <!-- Error state -->
-    <div class="error" id="error-state">
-      <h2 id="error-title">Something went wrong</h2>
-      <p id="error-body"></p>
     </div>
   </div>
 
-  <script>
-    const SUPABASE_URL = 'https://tyzetanexibtpmdzeggp.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR5emV0YW5leGlidHBtZHplZ2dwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzNTQ0MzYsImV4cCI6MjA4ODkzMDQzNn0.oWPuXZ30nom6W5ZyIn1z3dr6GR8ooQCQBva6hEiSy6k';
+  <!-- SUCCESS STATE -->
+  <div class="success" id="success-state">
+    <div class="success-emoji">❤️</div>
+    <h2 class="success-tag" id="success-tag">They'll know you're thinking of them.</h2>
+    <p class="success-body" id="success-body">Your response is on its way.</p>
 
-    // Extract token from URL path: /r/<token>
-    const pathMatch = window.location.pathname.match(/\/r\/([^\/]+)/);
-    const token = pathMatch ? pathMatch[1] : null;
+    <div class="cta-card">
+      <p class="cta-kicker">Your turn</p>
+      <p class="cta-title" id="cta-title">Want to send a message they'll never forget?</p>
+      <a class="cta-btn" href="https://lastlyapp.com" target="_blank" rel="noopener">Download Lastly →</a>
+    </div>
+  </div>
 
-    const $ = (id) => document.getElementById(id);
-    let selectedType = null;
+  <!-- ERROR STATE -->
+  <div class="error" id="error-state">
+    <div class="error-icon">🔗</div>
+    <h2 class="error-title">This link didn't work</h2>
+    <p class="error-body" id="error-body"></p>
+  </div>
+</main>
 
-    document.querySelectorAll('.option').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        selectedType = btn.dataset.type;
-        $('submit-btn').disabled = false;
-      });
+<script>
+const SUPABASE_URL = 'https://tyzetanexibtpmdzeggp.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR5emV0YW5leGlidHBtZHplZ2dwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzNTQ0MzYsImV4cCI6MjA4ODkzMDQzNn0.oWPuXZ30nom6W5ZyIn1z3dr6GR8ooQCQBva6hEiSy6k';
+
+// Extract token from URL path: /r/<token>
+const pathMatch = window.location.pathname.match(/\/r\/([^\/?#]+)/);
+const token = pathMatch ? pathMatch[1] : null;
+
+const $ = (id) => document.getElementById(id);
+let selectedType = null;
+let submitting = false;
+
+// Option selection
+document.querySelectorAll('.option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (submitting) return;
+    document.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedType = btn.dataset.type;
+    $('submit-btn').disabled = false;
+  });
+});
+
+// Character count
+$('response-text').addEventListener('input', (e) => {
+  $('count').textContent = e.target.value.length;
+});
+
+// How did this happen toggle
+$('how-link').addEventListener('click', () => {
+  $('how-body').classList.toggle('open');
+});
+
+// Submit
+$('submit-btn').addEventListener('click', async () => {
+  if (!selectedType || !token || submitting) return;
+  submitting = true;
+  $('submit-btn').disabled = true;
+  $('submit-text').textContent = 'Sending…';
+  const text = $('response-text').value.trim();
+  try {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/handle-circle-response`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY
+      },
+      body: JSON.stringify({
+        response_token: token,
+        response_type: selectedType,
+        response_text: text || null
+      })
     });
-
-    $('response-text').addEventListener('input', (e) => {
-      $('count').textContent = e.target.value.length;
-    });
-
-    $('how-link').addEventListener('click', () => {
-      $('how-body').classList.toggle('open');
-    });
-
-    $('submit-btn').addEventListener('click', async () => {
-      if (!selectedType || !token) return;
-      $('submit-btn').disabled = true;
-      $('submit-btn').textContent = 'Sending...';
-      const text = $('response-text').value.trim();
-      try {
-        const res = await fetch(`${SUPABASE_URL}/functions/v1/handle-circle-response`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': SUPABASE_ANON_KEY
-          },
-          body: JSON.stringify({
-            response_token: token,
-            response_type: selectedType,
-            response_text: text || null
-          })
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          showError(data.error || 'Something went wrong. Please try again.');
-          return;
-        }
-        showSuccess(data.member_name || 'They');
-      } catch (err) {
-        showError('We couldn\'t reach our servers. Please try again in a moment.');
-      }
-    });
-
-    function showSuccess(memberName) {
-      $('poll-state').style.display = 'none';
-      $('success-state').classList.add('show');
-      if (selectedType === 'not_well' || selectedType === 'down') {
-        $('success-title').textContent = "We'll let them know.";
-        $('success-body').textContent = 'They\'ll reach out to you soon. ❤️';
-      }
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      showError(data.error || 'Something went wrong. Please try again.');
+      return;
     }
+    showSuccess(data.member_name, data.sender_name);
+  } catch (err) {
+    showError("We couldn't reach our servers. Please try again in a moment.");
+  }
+});
 
-    function showError(message) {
-      $('poll-state').style.display = 'none';
-      $('error-state').classList.add('show');
-      $('error-body').textContent = message;
-    }
+function showSuccess(memberName, senderName) {
+  $('poll-state').style.display = 'none';
+  $('success-state').classList.add('show');
+  // Warmer copy for the "down" or "not_well" responses
+  if (selectedType === 'not_well' || selectedType === 'down') {
+    $('success-tag').textContent = "We'll let them know.";
+    $('success-body').textContent = 'They care about you, and they\'ll reach out soon. ❤️';
+  } else {
+    $('success-tag').textContent = "They'll know you're thinking of them.";
+    $('success-body').textContent = 'Your response is on its way. ❤️';
+  }
+  // Personalize the CTA with the sender's name if we have it
+  if (senderName) {
+    $('cta-title').textContent = `Want to send ${senderName} a message they'll never forget?`;
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-    if (!token) {
-      showError('This link is invalid or incomplete.');
-    }
-  </script>
+function showError(message) {
+  submitting = false;
+  $('poll-state').style.display = 'none';
+  $('success-state').classList.remove('show');
+  $('error-state').classList.add('show');
+  $('error-body').textContent = message;
+}
+
+// Invalid/missing token on page load
+if (!token) {
+  showError('This link is invalid or incomplete. Please use the exact link from your message.');
+}
+</script>
 </body>
 </html>
