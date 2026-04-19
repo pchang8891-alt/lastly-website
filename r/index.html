@@ -555,8 +555,34 @@ function showError(message) {
   $('error-body').textContent = message;
 }
 
-// Invalid/missing token on page load
-if (!token) {
+// Handle post-action redirects from the edge function (email button taps).
+// The edge function sets these query params on 302 redirect back here.
+const urlParams = new URLSearchParams(window.location.search);
+const preConfirmed = urlParams.get('confirmed');
+const preAlready = urlParams.get('already');
+const preExpired = urlParams.get('expired');
+const preInvalid = urlParams.get('invalid');
+
+function showAlreadyAnswered() {
+  $('poll-state').style.display = 'none';
+  $('success-state').classList.add('show');
+  $('success-tag').textContent = "You've already responded.";
+  $('success-body').textContent = 'Thank you — your message was received.';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+if (preConfirmed) {
+  selectedType = preConfirmed;
+  document.addEventListener('DOMContentLoaded', () => showSuccess(null, null));
+} else if (preAlready) {
+  document.addEventListener('DOMContentLoaded', showAlreadyAnswered);
+} else if (preExpired) {
+  document.addEventListener('DOMContentLoaded', () =>
+    showError('This link has expired. Your next check-in is on its way.'));
+} else if (preInvalid) {
+  document.addEventListener('DOMContentLoaded', () =>
+    showError("Please use the exact link from your message."));
+} else if (!token) {
   showError('This link is invalid or incomplete. Please use the exact link from your message.');
 }
 </script>
