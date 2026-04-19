@@ -3,7 +3,9 @@
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/support", "destination": "/support.html" },
     { "source": "/auth/callback", "destination": "/auth/callback.html" },
-    { "source": "/auth/reset", "destination": "/auth/reset.html" }
+    { "source": "/auth/reset", "destination": "/auth/reset.html" },
+    { "source": "/r/:token", "destination": "/r/index.html" },
+    { "source": "/u/:token", "destination": "/u/index.html" }
   ],
   "headers": [
     {
