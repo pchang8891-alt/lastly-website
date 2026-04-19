@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lastly — Unsubscribe</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Georgia', serif;
+      background: #0a0a1a;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+    .card {
+      max-width: 420px;
+      width: 100%;
+      padding: 32px 28px;
+      text-align: center;
+    }
+    h1 {
+      font-weight: 300;
+      font-size: 24px;
+      line-height: 1.4;
+      margin-bottom: 16px;
+      color: rgba(255,255,255,0.95);
+    }
+    p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .unsub-btn {
+      width: 100%;
+      padding: 16px;
+      background: rgba(255,255,255,0.1);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      border-radius: 14px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .unsub-btn:hover:not(:disabled) { background: rgba(255,255,255,0.18); }
+    .unsub-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .cancel {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+    }
+    .success, .error { display: none; }
+    .success.show, .error.show { display: block; }
+    .success-emoji { font-size: 40px; margin-bottom: 16px; }
+    .error h1 { color: rgba(255,140,140,0.95); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <!-- Confirm state -->
+    <div id="confirm-state">
+      <h1>Unsubscribe from <span id="sender-name">this circle</span>?</h1>
+      <p>You won't receive any more check-in messages. This can't be undone from here — you'd need to ask to be re-added.</p>
+      <button class="unsub-btn" id="unsub-btn">Yes, unsubscribe me</button>
+      <a class="cancel" href="https://lastlyapp.com">Never mind — take me to Lastly</a>
+    </div>
+
+    <!-- Success state -->
+    <div class="success" id="success-state">
+      <div class="success-emoji">✓</div>
+      <h1>You've been unsubscribed</h1>
+      <p id="success-body">You won't receive any more Lastly check-in messages.</p>
+      <a class="unsub-btn" style="display:inline-block;text-decoration:none;" href="https://lastlyapp.com">Visit Lastly</a>
+    </div>
+
+    <!-- Error state -->
+    <div class="error" id="error-state">
+      <h1>Something went wrong</h1>
+      <p id="error-body"></p>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://tyzetanexibtpmdzeggp.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR5emV0YW5leGlidHBtZHplZ2dwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzNTQ0MzYsImV4cCI6MjA4ODkzMDQzNn0.oWPuXZ30nom6W5ZyIn1z3dr6GR8ooQCQBva6hEiSy6k';
+
+    const pathMatch = window.location.pathname.match(/\/u\/([^\/]+)/);
+    const token = pathMatch ? pathMatch[1] : null;
+    const $ = (id) => document.getElementById(id);
+
+    $('unsub-btn').addEventListener('click', async () => {
+      if (!token) {
+        showError('This link is invalid.');
+        return;
+      }
+      $('unsub-btn').disabled = true;
+      $('unsub-btn').textContent = 'Processing...';
+      try {
+        const res = await fetch(`${SUPABASE_URL}/functions/v1/handle-circle-unsubscribe`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY
+          },
+          body: JSON.stringify({ unsubscribe_token: token })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          showError(data.error || 'We couldn\'t process your request.');
+          return;
+        }
+        $('confirm-state').style.display = 'none';
+        $('success-state').classList.add('show');
+      } catch (err) {
+        showError('We couldn\'t reach our servers. Please try again.');
+      }
+    });
+
+    function showError(message) {
+      $('confirm-state').style.display = 'none';
+      $('error-state').classList.add('show');
+      $('error-body').textContent = message;
+    }
+
+    if (!token) {
+      showError('This link is invalid or incomplete.');
+    }
+  </script>
+</body>
+</html>
