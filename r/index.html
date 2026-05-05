@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lastly — Checking in on you</title>
+<meta name="description" content="A friend is thinking of you. Let them know how you're doing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Inter',sans-serif;
+  font-weight:300;
+  color:#1a2a42;
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(168,182,220,.7) 0%, transparent 55%),
+    radial-gradient(ellipse at 100% 20%, rgba(200,176,222,.55) 0%, transparent 52%),
+    radial-gradient(ellipse at 50% 100%, rgba(150,192,222,.6) 0%, transparent 60%),
+    linear-gradient(180deg, #c2d8e8 0%, #b0c6dd 45%, #a5b8d4 100%);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Layered nebula — multiple waves for depth */
+.neb{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
+
+.nw1{
+  position:absolute;top:-8%;left:-10%;width:82%;height:62%;
+  background:radial-gradient(ellipse at 40% 45%,
+    rgba(178,152,222,.32) 0%,
+    rgba(140,130,200,.2) 26%,
+    rgba(180,162,230,.14) 48%,
+    transparent 72%);
+  border-radius:50%;
+  animation:nw1a 18s ease-in-out infinite;
+  filter:blur(6px);
+}
+.nw2{
+  position:absolute;top:-6%;right:-12%;width:62%;height:52%;
+  background:radial-gradient(ellipse at 58% 42%,
+    rgba(240,186,204,.3) 0%,
+    rgba(222,176,220,.18) 32%,
+    rgba(180,160,215,.1) 58%,
+    transparent 78%);
+  border-radius:50%;
+  animation:nw2a 22s ease-in-out infinite;
+  filter:blur(8px);
+}
+.nw3{
+  position:absolute;bottom:-10%;left:-8%;width:68%;height:58%;
+  background:radial-gradient(ellipse at 50% 58%,
+    rgba(130,188,222,.34) 0%,
+    rgba(144,174,222,.2) 30%,
+    rgba(182,200,230,.1) 56%,
+    transparent 78%);
+  border-radius:50%;
+  animation:nw3a 20s ease-in-out infinite;
+  filter:blur(8px);
+}
+.nw4{
+  position:absolute;bottom:-14%;right:-14%;width:72%;height:62%;
+  background:radial-gradient(ellipse at 50% 45%,
+    rgba(108,120,196,.32) 0%,
+    rgba(140,154,214,.18) 32%,
+    rgba(168,184,224,.1) 58%,
+    transparent 80%);
+  border-radius:50%;
+  animation:nw4a 24s ease-in-out infinite;
+  filter:blur(10px);
+}
+.nw5{
+  position:absolute;top:42%;left:-15%;width:130%;height:22%;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    rgba(200,178,232,.14) 20%,
+    rgba(168,160,222,.22) 45%,
+    rgba(188,196,232,.16) 70%,
+    transparent 100%);
+  transform:rotate(-4deg);
+  animation:nw5a 26s ease-in-out infinite;
+  filter:blur(12px);
+}
+
+@keyframes nw1a{0%,100%{opacity:.9;transform:scale(1) rotate(0deg);}50%{opacity:1;transform:scale(1.08) rotate(2deg);}}
+@keyframes nw2a{0%,100%{opacity:.7;transform:scale(1);}50%{opacity:1;transform:scale(1.06) translateX(-10px);}}
+@keyframes nw3a{0%,100%{opacity:.85;transform:scale(1) translateY(0);}50%{opacity:1;transform:scale(1.05) translateY(-14px);}}
+@keyframes nw4a{0%,100%{opacity:.75;transform:scale(1) rotate(0deg);}50%{opacity:1;transform:scale(1.1) rotate(-2deg);}}
+@keyframes nw5a{0%,100%{opacity:.5;transform:rotate(-4deg) translateX(0);}50%{opacity:.9;transform:rotate(-3deg) translateX(20px);}}
+
+nav{
+  position:relative;z-index:10;
+  padding:28px 32px;
+  display:flex;justify-content:center;align-items:center;
+}
+.logo{
+  font-family:'Prata',serif;font-weight:400;font-size:18px;letter-spacing:12px;
+  color:rgba(20,30,50,.85);text-decoration:none;
+}
+
+main{
+  position:relative;z-index:2;
+  max-width:520px;
+  margin:0 auto;
+  padding:16px 24px 60px;
+}
+
+.kicker{
+  text-align:center;
+  font-size:10px;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(30,50,80,.62);
+  margin-bottom:20px;
+  font-weight:500;
+}
+.tag{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(30px,7vw,42px);
+  line-height:1.2;
+  letter-spacing:.01em;
+  text-align:center;
+  margin-bottom:8px;
+  color:rgba(20,35,60,.95);
+}
+.tag em{
+  font-style:italic;font-weight:500;
+  background:linear-gradient(135deg,#4a6db5 0%,#7857c8 52%,#a86ec4 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sub{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
+  font-size:15px;
+  text-align:center;
+  color:rgba(30,50,80,.62);
+  margin-bottom:36px;
+}
+
+/* Sender context block — populated when ?token resolves to checkin row.
+   Hidden by default; shown via JS once we have the data. Layered above the
+   tagline so the recipient sees what the sender shared first. */
+.sender-context{
+  display:none;
+  margin:0 auto 28px;
+  padding:18px 22px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.55);
+  background:linear-gradient(165deg,rgba(255,255,255,.5) 0%,rgba(248,252,255,.32) 100%);
+  backdrop-filter:blur(14px);
+  box-shadow:0 4px 20px rgba(20,40,80,.06),inset 0 1px 0 rgba(255,255,255,.6);
+  text-align:center;
+}
+.sender-context.show{display:block;animation:fu .8s ease;}
+.sender-line{
+  font-family:'Cormorant Garamond',serif;font-weight:400;
+  font-size:18px;line-height:1.4;
+  color:rgba(20,35,60,.92);
+  margin-bottom:6px;
+}
+.sender-note{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
+  font-size:15px;line-height:1.55;
+  color:rgba(30,50,80,.7);
+  margin-top:10px;
+  padding-left:14px;
+  border-left:3px solid rgba(120,87,200,.5);
+  text-align:left;
+}
+
+.shell{
+  position:relative;
+  padding:28px 24px 24px;
+  border-radius:28px;
+  border:1px solid rgba(255,255,255,.5);
+  border-top-color:rgba(255,255,255,.72);
+  background:linear-gradient(165deg,rgba(255,255,255,.55) 0%,rgba(248,252,255,.35) 54%,rgba(230,240,250,.45) 100%);
+  backdrop-filter:blur(22px) saturate(130%);
+  box-shadow:0 20px 65px rgba(20,40,80,.12),inset 0 1px 0 rgba(255,255,255,.7);
+}
+
+.options{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+.option{
+  display:flex;align-items:center;gap:16px;
+  padding:18px 20px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.55);
+  background:linear-gradient(145deg,rgba(255,255,255,.48),rgba(255,255,255,.28));
+  backdrop-filter:blur(14px);
+  cursor:pointer;
+  transition:all .25s cubic-bezier(.2,.8,.2,1);
+  width:100%;
+  text-align:left;
+  font-family:inherit;
+  -webkit-tap-highlight-color:transparent;
+  box-shadow:0 4px 18px rgba(20,40,80,.04),inset 0 1px 0 rgba(255,255,255,.6);
+}
+.option:hover{
+  border-color:rgba(120,87,200,.4);
+  background:linear-gradient(145deg,rgba(255,255,255,.65),rgba(235,228,255,.4));
+  transform:translateY(-2px);
+  box-shadow:0 12px 32px rgba(120,87,200,.12),inset 0 1px 0 rgba(255,255,255,.7);
+}
+.option.selected{
+  border-color:rgba(120,87,200,.65);
+  border-top-color:rgba(138,105,215,.8);
+  background:linear-gradient(145deg,rgba(235,228,255,.65),rgba(220,210,252,.45));
+  box-shadow:0 16px 40px rgba(120,87,200,.18),inset 0 1px 0 rgba(255,255,255,.7);
+}
+.option .emoji{font-size:28px;line-height:1;flex-shrink:0;}
+.option .label{
+  flex:1;
+  font-family:'Cormorant Garamond',serif;
+  font-weight:400;
+  font-size:18px;
+  color:rgba(25,40,65,.88);
+  letter-spacing:.01em;
+}
+.option.selected .label{color:rgba(75,55,150,.95);font-weight:500;}
+
+.textarea-wrap{margin-bottom:6px;}
+textarea{
+  width:100%;
+  min-height:82px;
+  padding:14px 16px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.55);
+  background:rgba(255,255,255,.38);
+  backdrop-filter:blur(10px);
+  color:rgba(20,35,60,.95);
+  font-family:'Cormorant Garamond',serif;
+  font-weight:400;font-size:16px;line-height:1.5;
+  resize:vertical;
+  outline:none;
+  transition:all .2s ease;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
+}
+textarea::placeholder{color:rgba(30,50,80,.42);font-style:italic;}
+textarea:focus{
+  border-color:rgba(120,87,200,.5);
+  background:rgba(255,255,255,.55);
+  box-shadow:0 0 0 3px rgba(120,87,200,.08),inset 0 1px 0 rgba(255,255,255,.6);
+}
+.char-count{
+  font-size:11px;letter-spacing:.5px;
+  color:rgba(30,50,80,.4);
+  text-align:right;
+  margin-top:6px;
+  margin-bottom:20px;
+  font-weight:500;
+}
+
+.submit-btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;
+  padding:18px 32px;
+  border-radius:60px;
+  border:1px solid rgba(80,60,160,.3);
+  background:linear-gradient(135deg,#3a2a78 0%,#5a3da8 54%,#7857c8 100%);
+  color:#fff;
+  font-family:'Inter',sans-serif;
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:500;
+  cursor:pointer;
+  transition:all .3s ease;
+  box-shadow:0 14px 40px rgba(80,60,160,.22),inset 0 1px 0 rgba(255,255,255,.14);
+  outline:none;
+}
+.submit-btn:hover:not(:disabled){
+  transform:translateY(-2px);
+  box-shadow:0 20px 50px rgba(80,60,160,.3),inset 0 1px 0 rgba(255,255,255,.2);
+}
+.submit-btn:active{transform:translateY(0);}
+.submit-btn:disabled{opacity:.38;cursor:not-allowed;background:linear-gradient(135deg,rgba(60,50,100,.5),rgba(90,80,150,.5));}
+
+.footer{
+  margin-top:28px;
+  text-align:center;
+}
+.how-link{
+  font-size:10px;letter-spacing:2.5px;text-transform:uppercase;
+  color:rgba(30,50,80,.48);
+  cursor:pointer;
+  transition:color .2s;
+  font-weight:500;
+}
+.how-link:hover{color:rgba(30,50,80,.75);}
+.how-body{
+  display:none;
+  margin-top:14px;padding:16px 18px;
+  border-radius:14px;
+  background:rgba(255,255,255,.3);
+  border:1px solid rgba(255,255,255,.45);
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px;line-height:1.7;
+  color:rgba(30,50,80,.8);
+  text-align:left;
+  backdrop-filter:blur(10px);
+}
+.how-body.open{display:block;}
+.how-body a{color:rgba(75,55,150,.9);text-decoration:none;font-weight:500;}
+.how-body a:hover{text-decoration:underline;}
+
+.success{display:none;text-align:center;}
+.success.show{display:block;animation:fu .8s ease;}
+.success-emoji{font-size:56px;margin-bottom:20px;animation:pulse 2s ease-in-out infinite;}
+.success-tag{
+  font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  font-size:clamp(26px,6vw,36px);
+  line-height:1.25;
+  color:rgba(20,35,60,.95);
+  margin-bottom:16px;
+}
+.success-body{
+  font-size:15px;line-height:1.7;
+  color:rgba(30,50,80,.75);
+  margin-bottom:40px;
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+}
+.cta-card{
+  padding:26px 22px;
+  border-radius:22px;
+  border:1px solid rgba(120,87,200,.25);
+  background:linear-gradient(165deg,rgba(120,87,200,.08) 0%,rgba(80,60,160,.05) 100%);
+  backdrop-filter:blur(14px);
+  text-align:center;
+  box-shadow:0 12px 32px rgba(80,60,160,.08),inset 0 1px 0 rgba(255,255,255,.5);
+}
+.cta-kicker{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(75,55,150,.7);
+  margin-bottom:10px;font-weight:500;
+}
+.cta-title{
+  font-family:'Cormorant Garamond',serif;font-weight:400;
+  font-size:20px;line-height:1.35;
+  color:rgba(20,35,60,.95);
+  margin-bottom:20px;
+}
+.cta-btn{
+  display:inline-block;
+  padding:14px 32px;
+  border-radius:60px;
+  background:#080420;
+  color:#f7f7fb;
+  text-decoration:none;
+  font-family:'Inter',sans-serif;
+  font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;
+  box-shadow:0 10px 28px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.08);
+  transition:all .3s ease;
+}
+.cta-btn:hover{background:#000;box-shadow:0 14px 36px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.12);transform:translateY(-1px);}
+
+.error{display:none;text-align:center;padding:20px 0;}
+.error.show{display:block;animation:fu .6s ease;}
+.error-icon{font-size:42px;margin-bottom:18px;opacity:.5;}
+.error-title{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:22px;
+  color:rgba(40,25,50,.92);
+  margin-bottom:10px;
+}
+.error-body{
+  font-size:14px;line-height:1.65;
+  color:rgba(30,50,80,.65);
+  font-family:'Cormorant Garamond',serif;
+}
+
+@keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+
+.anim{opacity:0;animation:fu 1s ease forwards;}
+.anim-1{animation-delay:.1s;}
+.anim-2{animation-delay:.2s;}
+.anim-3{animation-delay:.35s;}
+.anim-4{animation-delay:.5s;}
+
+@media(max-width:480px){
+  nav{padding:22px 20px;}
+  .logo{font-size:16px;letter-spacing:10px;}
+  main{padding:8px 16px 48px;}
+  .shell{padding:22px 18px 20px;}
+  .option{padding:16px 16px;gap:14px;}
+  .option .emoji{font-size:26px;}
+  .option .label{font-size:17px;}
+}
+</style>
+</head>
+<body>
+
+<div class="neb">
+  <div class="nw1"></div>
+  <div class="nw2"></div>
+  <div class="nw3"></div>
+  <div class="nw4"></div>
+  <div class="nw5"></div>
+</div>
+
+<nav>
+  <span class="logo">LASTLY</span>
+</nav>
+
+<main>
+  <!-- POLL STATE -->
+  <div id="poll-state">
+    <p class="kicker anim anim-1" id="kicker">Someone is thinking of you</p>
+    <h1 class="tag anim anim-2">How are you <em>doing</em>?</h1>
+    <p class="sub anim anim-3">Tap one — it only takes a second</p>
+
+    <!-- Sender context — shown if get-circle-checkin endpoint returns data -->
+    <div class="sender-context anim anim-3" id="sender-context">
+      <div class="sender-line" id="sender-line"></div>
+      <div class="sender-note" id="sender-note" style="display:none;"></div>
+    </div>
+
+    <div class="shell anim anim-4">
+      <div class="options" id="options">
+        <button class="option" data-type="doing_well">
+          <span class="emoji">😊</span>
+          <span class="label">I'm doing well</span>
+        </button>
+        <button class="option" data-type="okay">
+          <span class="emoji">😐</span>
+          <span class="label">I'm okay</span>
+        </button>
+        <button class="option" data-type="a_bit_down">
+          <span class="emoji">💙</span>
+          <span class="label">I'm a bit down</span>
+        </button>
+        <button class="option" data-type="tired">
+          <span class="emoji">😴</span>
+          <span class="label">I'm tired</span>
+        </button>
+        <button class="option" data-type="grateful">
+          <span class="emoji">❤️</span>
+          <span class="label">I'm grateful</span>
+        </button>
+        <button class="option" data-type="thinking_of_you">
+          <span class="emoji">💭</span>
+          <span class="label">Thinking of you</span>
+        </button>
+      </div>
+
+      <div class="textarea-wrap">
+        <textarea id="response-text" placeholder="Want to say something? (optional)" maxlength="280"></textarea>
+        <div class="char-count"><span id="count">0</span> / 280</div>
+      </div>
+
+      <button class="submit-btn" id="submit-btn" disabled>
+        <span id="submit-text">Send</span>
+      </button>
+    </div>
+
+    <div class="footer">
+      <span class="how-link" id="how-link">Why am I receiving this?</span>
+      <div class="how-body" id="how-body">
+        Someone who cares about you added you to their Lastly circle — a gentle, automated way for loved ones to stay connected. Every so often, they'll send a quick check-in to see how you're doing, and you can send one back.
+        <br><br>
+        Lastly is an app for recording voice, video, and written messages for the people who matter most — delivered now, on a future date, or when the time is right. <a href="https://lastlyapp.com" target="_blank" rel="noopener">Learn more at lastlyapp.com</a>.
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS STATE -->
+  <div class="success" id="success-state">
+    <div class="success-emoji">❤️</div>
+    <h2 class="success-tag" id="success-tag">They'll know you're thinking of them.</h2>
+    <p class="success-body" id="success-body">Your response is on its way.</p>
+
+    <div class="cta-card">
+      <p class="cta-kicker">Your turn</p>
+      <p class="cta-title" id="cta-title">Want to send a message they'll never forget?</p>
+      <a class="cta-btn" href="https://lastlyapp.com" target="_blank" rel="noopener">Download Lastly →</a>
+    </div>
+  </div>
+
+  <!-- ERROR STATE -->
+  <div class="error" id="error-state">
+    <div class="error-icon">😕</div>
+    <h2 class="error-title">This link didn't work</h2>
+    <p class="error-body" id="error-body"></p>
+  </div>
+</main>
+
+<script>
+const SUPABASE_URL = 'https://tyzetanexibtpmdzeggp.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR5emV0YW5leGlidHBtZHplZ2dwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzNTQ0MzYsImV4cCI6MjA4ODkzMDQzNn0.oWPuXZ30nom6W5ZyIn1z3dr6GR8ooQCQBva6hEiSy6k';
+
+// Extract token from URL path: /r/<token>
+const pathMatch = window.location.pathname.match(/\/r\/([^\/?#]+)/);
+const token = pathMatch ? pathMatch[1] : null;
+
+const $ = (id) => document.getElementById(id);
+let selectedType = null;
+let submitting = false;
+
+// Mood phrasing for the sender-context line. Mirrors the email template.
+const SENDER_MOOD_PHRASE = {
+  doing_well: 'is checking in — feeling good today.',
+  okay: 'is checking in — feeling okay today.',
+  a_bit_down: 'is checking in — feeling a bit down today.',
+  tired: 'is checking in — feeling a little tired today.',
+  grateful: 'is checking in — feeling grateful today.',
+  thinking_of_you: 'is thinking of you.'
+};
+
+// Best-effort fetch of sender context from a future endpoint. Silently
+// no-ops if the endpoint isn't deployed yet — page still works.
+async function loadSenderContext() {
+  if (!token) return;
+  try {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/get-circle-checkin?token=${token}`, {
+      headers: { apikey: SUPABASE_ANON_KEY }
+    });
+    if (!res.ok) return;
+    const data = await res.json().catch(() => null);
+    if (!data || !data.sender_name || !data.owner_mood) return;
+
+    const phrase = SENDER_MOOD_PHRASE[data.owner_mood];
+    if (!phrase) return;
+    $('sender-line').textContent = `${data.sender_name} ${phrase}`;
+    if (data.owner_note) {
+      $('sender-note').textContent = data.owner_note;
+      $('sender-note').style.display = 'block';
+    }
+    $('sender-context').classList.add('show');
+    // De-emphasize the generic kicker once we have personalized context
+    $('kicker').style.display = 'none';
+  } catch (_) { /* ignore */ }
+}
+
+// Option selection
+document.querySelectorAll('.option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (submitting) return;
+    document.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedType = btn.dataset.type;
+    $('submit-btn').disabled = false;
+  });
+});
+
+// Character count
+$('response-text').addEventListener('input', (e) => {
+  $('count').textContent = e.target.value.length;
+});
+
+// "Why am I receiving this?" toggle
+$('how-link').addEventListener('click', () => {
+  $('how-body').classList.toggle('open');
+});
+
+// Submit
+$('submit-btn').addEventListener('click', async () => {
+  if (!selectedType || !token || submitting) return;
+  submitting = true;
+  $('submit-btn').disabled = true;
+  $('submit-text').textContent = 'Sending…';
+  const text = $('response-text').value.trim();
+  try {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/handle-circle-response`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY
+      },
+      body: JSON.stringify({
+        response_token: token,
+        response_type: selectedType,
+        response_text: text || null
+      })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      showError(data.error || 'Something went wrong. Please try again.');
+      return;
+    }
+    showSuccess(data.member_name, data.sender_name);
+  } catch (err) {
+    showError("We couldn't reach our servers. Please try again in a moment.");
+  }
+});
+
+function showSuccess(memberName, senderName) {
+  $('poll-state').style.display = 'none';
+  $('success-state').classList.add('show');
+  // Warmer copy for the only "low" mood in the new vocab
+  if (selectedType === 'a_bit_down') {
+    $('success-tag').textContent = "We'll let them know.";
+    $('success-body').textContent = "They care about you, and they'll reach out soon. ❤️";
+  } else {
+    $('success-tag').textContent = "They'll know you're thinking of them.";
+    $('success-body').textContent = "Your response is on its way. ❤️";
+  }
+  if (senderName) {
+    $('cta-title').textContent = `Want to send ${senderName} a message they'll never forget?`;
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showError(message) {
+  submitting = false;
+  $('poll-state').style.display = 'none';
+  $('success-state').classList.remove('show');
+  $('error-state').classList.add('show');
+  $('error-body').textContent = message;
+}
+
+// Handle post-action redirects from the edge function (email button taps).
+const urlParams = new URLSearchParams(window.location.search);
+const preConfirmed = urlParams.get('confirmed');
+const preAlready = urlParams.get('already');
+const preExpired = urlParams.get('expired');
+const preInvalid = urlParams.get('invalid');
+
+function showAlreadyAnswered() {
+  $('poll-state').style.display = 'none';
+  $('success-state').classList.add('show');
+  $('success-tag').textContent = "You've already responded.";
+  $('success-body').textContent = "Thank you — your message was received.";
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+if (preConfirmed) {
+  selectedType = preConfirmed;
+  document.addEventListener('DOMContentLoaded', () => showSuccess(null, null));
+} else if (preAlready) {
+  document.addEventListener('DOMContentLoaded', showAlreadyAnswered);
+} else if (preExpired) {
+  document.addEventListener('DOMContentLoaded', () =>
+    showError('This link has expired. Your next check-in is on its way.'));
+} else if (preInvalid) {
+  document.addEventListener('DOMContentLoaded', () =>
+    showError("Please use the exact link from your message."));
+} else if (!token) {
+  showError('This link is invalid or incomplete. Please use the exact link from your message.');
+} else {
+  // Normal page load — try to fetch sender context
+  loadSenderContext();
+}
+</script>
+</body>
+</html>
