@@ -335,7 +335,16 @@ textarea:focus{
   font-family:'Cormorant Garamond',serif;font-weight:400;
   font-size:20px;line-height:1.35;
   color:rgba(20,35,60,.95);
+  margin-bottom:12px;
+}
+.cta-sub{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
+  font-size:14px;line-height:1.55;
+  color:rgba(30,50,80,.65);
   margin-bottom:20px;
+  max-width:340px;
+  margin-left:auto;
+  margin-right:auto;
 }
 .cta-btn{
   display:inline-block;
@@ -469,8 +478,9 @@ textarea:focus{
 
     <div class="cta-card">
       <p class="cta-kicker">Your turn</p>
-      <p class="cta-title" id="cta-title">Want to send a message they'll never forget?</p>
-      <a class="cta-btn" href="https://lastlyapp.com" target="_blank" rel="noopener">Download Lastly →</a>
+      <p class="cta-title" id="cta-title">Stay close to your people. Start your own Heartbeats.</p>
+      <p class="cta-sub" id="cta-sub">A gentle check-in for the people who matter — on your schedule, in your words.</p>
+      <a class="cta-btn" href="https://lastlyapp.com" target="_blank" rel="noopener">Get Lastly →</a>
     </div>
   </div>
 
@@ -593,7 +603,7 @@ function showSuccess(memberName, senderName) {
     $('success-body').textContent = "Your response is on its way. ❤️";
   }
   if (senderName) {
-    $('cta-title').textContent = `Want to send ${senderName} a message they'll never forget?`;
+    $('cta-title').textContent = `${senderName} is keeping in touch. Do the same for the people you love.`;
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
