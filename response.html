@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lastly</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter',sans-serif;font-weight:300;
+  color:#1a2a42;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(168,182,220,.55) 0%, transparent 55%),
+    radial-gradient(ellipse at 100% 20%, rgba(200,176,222,.40) 0%, transparent 52%),
+    radial-gradient(ellipse at 50% 100%, rgba(150,192,222,.45) 0%, transparent 60%),
+    linear-gradient(180deg, #d9e5ef 0%, #c4d3e2 45%, #b8c8da 100%);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+nav{
+  padding:28px 32px;display:flex;justify-content:center;align-items:center;
+}
+.logo{
+  font-family:'Prata',serif;font-weight:400;font-size:18px;letter-spacing:12px;
+  color:rgba(20,30,50,.85);text-decoration:none;
+}
+main{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  padding:20px 24px 80px;
+}
+.card{
+  width:100%;max-width:480px;
+  padding:48px 36px;
+  border-radius:24px;
+  border:1px solid rgba(255,255,255,.55);
+  background:linear-gradient(165deg,rgba(255,255,255,.58) 0%,rgba(248,252,255,.34) 100%);
+  backdrop-filter:blur(18px) saturate(130%);
+  box-shadow:0 18px 50px rgba(20,40,80,.12),inset 0 1px 0 rgba(255,255,255,.6);
+  text-align:center;
+}
+.icon-wrap{
+  width:72px;height:72px;margin:0 auto 28px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(160deg,rgba(120,180,150,.22),rgba(120,180,150,.10));
+  border:1px solid rgba(120,180,150,.45);
+}
+.icon-wrap svg{width:36px;height:36px}
+.icon-wrap.warn{
+  background:linear-gradient(160deg,rgba(200,170,110,.22),rgba(200,170,110,.10));
+  border-color:rgba(200,170,110,.45);
+}
+.icon-wrap.info{
+  background:linear-gradient(160deg,rgba(140,170,210,.22),rgba(140,170,210,.10));
+  border-color:rgba(140,170,210,.45);
+}
+h1{
+  font-family:'Cormorant Garamond',serif;font-weight:400;
+  font-size:clamp(28px,5vw,36px);
+  color:rgba(20,35,60,.95);
+  line-height:1.25;margin-bottom:16px;
+}
+.sub{
+  font-size:15px;font-weight:300;line-height:1.7;
+  color:rgba(30,50,80,.72);
+  max-width:380px;margin:0 auto;
+}
+footer{
+  text-align:center;padding:24px;
+  font-size:11px;letter-spacing:1px;
+  color:rgba(30,50,80,.45);
+}
+footer a{color:rgba(30,50,80,.6);text-decoration:none}
+</style>
+</head>
+<body>
+  <nav><a class="logo" href="https://lastlyapp.com">LASTLY</a></nav>
+  <main>
+    <div class="card">
+      <div class="icon-wrap" id="iconWrap">
+        <svg id="iconSvg" viewBox="0 0 24 24" fill="none" stroke="rgba(70,130,100,.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6L9 17l-5-5"/>
+        </svg>
+      </div>
+      <h1 id="message">You're all checked in.</h1>
+      <p class="sub" id="sub">Your Lastly messages are safe and protected.</p>
+    </div>
+  </main>
+  <footer>
+    Lastly · <a href="https://lastlyapp.com">lastlyapp.com</a> · Questions? <a href="mailto:support@lastlyapp.com">support@lastlyapp.com</a>
+  </footer>
+
+<script>
+  // Render the confirmation message + sub-text passed by the Supabase edge
+  // function redirect (handle-checkin-response / handle-witness-response).
+  // Params: action (checkin|witness|error|...), message, sub.
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var action = params.get('action') || 'checkin';
+    var message = params.get('message');
+    var sub = params.get('sub');
+
+    // Escape any HTML, then re-allow only <br> tags (the edge functions
+    // intentionally include <br> for line breaks in the sub text).
+    function safe(str) {
+      if (!str) return '';
+      var escaped = str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+      return escaped.replace(/&lt;br\s*\/?&gt;/gi, '<br>');
+    }
+
+    if (message) document.getElementById('message').innerHTML = safe(message);
+    if (sub !== null) document.getElementById('sub').innerHTML = safe(sub);
+
+    // Swap the icon + accent colour for non-success states so an expired or
+    // invalid link doesn't show a reassuring green checkmark.
+    var wrap = document.getElementById('iconWrap');
+    var svg = document.getElementById('iconSvg');
+    var msgLower = (message || '').toLowerCase();
+    var isProblem =
+      action === 'error' ||
+      msgLower.indexOf('not valid') !== -1 ||
+      msgLower.indexOf('invalid') !== -1 ||
+      msgLower.indexOf('went wrong') !== -1 ||
+      msgLower.indexOf('already been delivered') !== -1 ||
+      msgLower.indexOf('protected hold') !== -1;
+
+    if (isProblem) {
+      wrap.className = 'icon-wrap warn';
+      svg.setAttribute('stroke', 'rgba(170,130,60,.9)');
+      // Exclamation mark
+      svg.innerHTML = '<line x1="12" y1="8" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>';
+    }
+  })();
+</script>
+</body>
+</html>
