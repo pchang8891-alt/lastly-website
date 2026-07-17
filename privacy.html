@@ -98,7 +98,7 @@
     <div class="tagline">Love Across Space & Time</div>
 
     <h1>Privacy Policy</h1>
-    <div class="updated">Effective date: April 2, 2026 &nbsp;·&nbsp; Last updated: July 14, 2026</div>
+    <div class="updated">Effective date: April 2, 2026 &nbsp;·&nbsp; Last updated: July 17, 2026</div>
 
     <p>Lastly is a personal messaging app that lets you record audio, video, and text messages — called echoes — and deliver them to the people you love at a future date or life event. This Privacy Policy explains what information we collect, how we use it, and how we protect it.</p>
 
@@ -129,7 +129,7 @@
     <p>We collect your device's push notification token to send you delivery confirmations, guardian check-in reminders, and other app notifications you have enabled.</p>
 
     <p><strong>Subscription and Purchase Information</strong></p>
-    <p>Subscription management is handled by RevenueCat. We receive confirmation of your subscription status but do not have access to your payment card details. All payment processing is handled directly by Apple.</p>
+    <p>Subscription management is handled by RevenueCat. We receive confirmation of your subscription status but do not have access to your payment card details. All payment processing is handled directly by the app store you downloaded Lastly from (Apple App Store or Google Play).</p>
 
     <p><strong>Usage Data</strong></p>
     <p>We collect basic information about how you interact with the app — such as which features you use and when — to improve the product and diagnose issues.</p>
@@ -156,7 +156,7 @@
       <li>To store and deliver your echoes to your designated recipients</li>
       <li>To send SMS and email notifications via our delivery partners</li>
       <li>To operate the guardian check-in system for Testament echoes</li>
-      <li>To process your subscription through RevenueCat and Apple</li>
+      <li>To process your subscription through RevenueCat and the app store you subscribed through</li>
       <li>To send you push notifications you have enabled</li>
       <li>To improve the app and diagnose technical issues</li>
       <li>To respond to your support requests</li>
@@ -175,7 +175,7 @@
       <li><strong>Twilio</strong> — SMS delivery of echo notifications and claim codes</li>
       <li><strong>Resend</strong> — transactional email delivery</li>
       <li><strong>RevenueCat</strong> — subscription management</li>
-      <li><strong>Apple APNs / Expo</strong> — push notification delivery</li>
+      <li><strong>Expo (via Apple APNs / Google FCM)</strong> — push notification delivery</li>
       <li><strong>Anthropic</strong> — AI script generation and onboarding reflection (no user identification)</li>
       <li><strong>OpenAI (Whisper)</strong> — audio and video transcription (no user identification)</li>
     </ul>
@@ -190,7 +190,7 @@
 
     <p><strong>Standard echoes and subscription lapse.</strong> If your subscription lapses, standard echoes already scheduled to deliver within 90 days of the lapse date will still be delivered as scheduled. Echoes scheduled to deliver more than 90 days after the lapse date are not guaranteed delivery; we will notify you that these echoes are at risk, and if your subscription is not reactivated within 30 days of that notice, the affected echoes will be permanently deleted.</p>
 
-    <p><strong>Your account</strong> and all associated echoes can be deleted by contacting us at <a href="mailto:hello@lastlyapp.com">hello@lastlyapp.com</a>. We will process deletion requests within 30 days.</p>
+    <p><strong>Your account</strong> and all associated echoes, recordings, and Circle data can be deleted at any time from within the app (Profile → Delete Account). Deletion is immediate and permanent — there is no waiting period, and it cannot be undone. If you are unable to access the app, you may also request deletion by contacting us at <a href="mailto:hello@lastlyapp.com">hello@lastlyapp.com</a>.</p>
 
     <p><strong>AI processing</strong> — raw braindump text and onboarding answers are never stored. Audio files sent for transcription are not retained by OpenAI after processing.</p>
 
@@ -203,13 +203,13 @@
       <li>Audio and video transcripts are encrypted using AES-256-GCM before storage</li>
       <li>All data is transmitted over HTTPS/TLS</li>
       <li>Media files are never publicly accessible — all access requires authenticated pre-signed URLs that expire within one hour</li>
-      <li>Authentication sessions are stored in iOS Keychain, never in less secure storage</li>
+      <li>Authentication sessions are stored using your device's secure storage system (Keychain on iOS, Keystore on Android), never in less secure storage</li>
       <li>Your AWS credentials and API keys are never stored in the app</li>
     </ul>
 
     <h2>7. Children's Privacy</h2>
 
-    <p>Lastly is rated 4+ and is available to users of all ages. We do not knowingly collect personal information from children under the age of 13 without verifiable parental consent. If you believe a child under 13 has provided us with personal information, please contact us and we will delete it promptly.</p>
+    <p>Lastly is not directed at children, and its age rating may vary by app store depending on each store's own rating system. We do not knowingly collect personal information from children under the age of 13 without verifiable parental consent. If you believe a child under 13 has provided us with personal information, please contact us and we will delete it promptly.</p>
 
     <p>The Testament feature, which involves end-of-life planning, includes an acknowledgment that users should be 18 or older to use this specific feature.</p>
 
@@ -238,7 +238,7 @@
       <h2>Contact Us</h2>
       <p>If you have any questions about this Privacy Policy or how we handle your data, please contact us:</p>
       <br>
-      <p><strong> Lastly Privacy Team </strong><br>
+      <p><strong>Lastly Team</strong><br>
       Lastly<br>
       Ontario, Canada<br>
       <a href="mailto:hello@lastlyapp.com">hello@lastlyapp.com</a><br>
